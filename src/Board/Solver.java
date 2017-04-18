@@ -19,6 +19,56 @@ public class Solver {
 		
 	}
 	
+	/**checks for solvable things within an array of cells
+	 * 
+	 * @param array
+	 */
+	public void checkCellArray(Cell[] array){
+
+		checkForHiddenSingles(array);
+		checkForNakedSingles(array);
+	}
+	
+	private void checkForHiddenSingles(Cell[] array) {
+
+		
+	}
+
+	/** Does what it says on the box.  Looks for a cell that has all but one option eliminated from it
+	 * 
+	 * @param array
+	 */
+	private void checkForNakedSingles(Cell[] array) {
+		
+		//initialize at 0 (an invalid sudoku answer
+		int value=0;
+		
+		//iterate over array
+		for(Cell cell:array){
+			
+			//count of how many trues we find (how many valid numbers remain for this cell)
+			int count=0;
+			//iterate 1 through 9
+			for(int i=1;i<=9;i++){
+				
+				//if that value is still good...
+				if(cell.checkValue(i)){
+					//increment count of valid options...
+					count++;
+					//and store it
+					value=i;
+				}
+			}
+			
+			//if only one valid option remains in Cell... 
+			if (count==1 && value!=0){ //value check is a fail safe sort of check.  I can't fathom a scenario where it might be relevant
+			//then it is solved
+				setSolvedCell(cell, value);
+			}
+		}
+		
+	}
+
 	/** Set solution for this cell
 	 * 
 	 * @param solvedCell
