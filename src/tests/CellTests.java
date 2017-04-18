@@ -16,7 +16,9 @@ public class CellTests {
 	public Cell testCell6 = new Cell(8,8);
 	
 	
-
+/**
+ * Makes sure that cells are determning their block correctly.  Tests extents and around a Block intersection
+ */
 	@Test
 	public void testGetBlock() {
 		assertEquals(0, testCell1.getBlock());
@@ -27,6 +29,9 @@ public class CellTests {
 		assertEquals(8, testCell6.getBlock());
 	}
 
+	/** tests coordinate retrieval
+	 * 
+	 */
 	@Test
 	public void testGetCoords() {
 		assertEquals(2, testCell2.getCoords().x);
@@ -36,6 +41,9 @@ public class CellTests {
 		assertEquals(3, testCell3.getCoords().y);
 	}
 	
+	/** Checks that values associated with setting a cell to solved work correctly
+	 * 
+	 */
 	@Test
 	public void testSetSolvedValue() {
 		assertFalse(testCell1.isSolved());

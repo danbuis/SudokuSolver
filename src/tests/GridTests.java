@@ -9,6 +9,9 @@ import Board.Grid;
 
 public class GridTests {
 
+	/**
+	 * Make sure full extent of grid is created
+	 */
 	@Test
 	public void testConstructor() {
 		Grid testGrid = new Grid();
@@ -16,6 +19,9 @@ public class GridTests {
 		assertNotNull(testGrid.getCellArray()[8][8]);
 	}
 	
+	/**
+	 * Makes sure that Cells accessed through different organizational structures are still identical
+	 */
 	@Test
 	public void testCellCopy(){
 		Grid testGrid = new Grid();
@@ -38,6 +44,9 @@ public class GridTests {
 		
 	}
 	
+	/**
+	 * tests behaviour of getRow() method
+	 */
 	@Test
 	public void testGetRow(){
 		Grid testGrid = new Grid();
@@ -53,6 +62,9 @@ public class GridTests {
 		assertEquals(8, row2[8].getCoords().y);
 	}
 	
+	/**
+	 * tests behaviour of getColumn() method
+	 */
 	@Test
 	public void testGetColumn(){
 		Grid testGrid = new Grid();
@@ -68,6 +80,10 @@ public class GridTests {
 		assertEquals(8, column2[8].getCoords().x);
 	}
 	
+	
+	/**
+	 * tests behaviour of getGroup() method
+	 */
 	@Test
 	public void testGetGroup(){
 		Grid testGrid = new Grid();
