@@ -8,32 +8,32 @@ import Board.Cell;
 
 public class CellTests {
 
-	public Cell testCell1 = new Cell(1,1);
-	public Cell testCell2 = new Cell(3,3);
-	public Cell testCell3 = new Cell(3,4);
-	public Cell testCell4 = new Cell(4,3);
-	public Cell testCell5 = new Cell(4,4);
-	public Cell testCell6 = new Cell(9,9);
+	public Cell testCell1 = new Cell(0,0);
+	public Cell testCell2 = new Cell(2,2);
+	public Cell testCell3 = new Cell(2,3);
+	public Cell testCell4 = new Cell(3,2);
+	public Cell testCell5 = new Cell(3,3);
+	public Cell testCell6 = new Cell(8,8);
 	
 	
 
 	@Test
 	public void testGetBlock() {
-		assertEquals(1, testCell1.getBlock());
-		assertEquals(1, testCell2.getBlock());
-		assertEquals(2, testCell4.getBlock());
-		assertEquals(4, testCell3.getBlock());
-		assertEquals(5, testCell5.getBlock());
-		assertEquals(9, testCell6.getBlock());
+		assertEquals(0, testCell1.getBlock());
+		assertEquals(0, testCell2.getBlock());
+		assertEquals(1, testCell4.getBlock());
+		assertEquals(3, testCell3.getBlock());
+		assertEquals(4, testCell5.getBlock());
+		assertEquals(8, testCell6.getBlock());
 	}
 
 	@Test
 	public void testGetCoords() {
-		assertEquals(3, testCell2.getCoords().x);
-		assertEquals(3, testCell2.getCoords().y);
+		assertEquals(2, testCell2.getCoords().x);
+		assertEquals(2, testCell2.getCoords().y);
 		
-		assertEquals(3, testCell3.getCoords().x);
-		assertEquals(4, testCell3.getCoords().y);
+		assertEquals(2, testCell3.getCoords().x);
+		assertEquals(3, testCell3.getCoords().y);
 	}
 	
 	@Test

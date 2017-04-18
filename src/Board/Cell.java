@@ -36,6 +36,8 @@ public class Cell {
 
 	/**
 	 * Use coordinates to determine what portion of the board this cell resides in.
+	 * 
+	 * Upper left is 0, then proceeding as reading a book, lower right is 8
 	 * @param x
 	 * @param y
 	 * @return
@@ -43,14 +45,14 @@ public class Cell {
 	private int calculateBlock(int x, int y) {
 		
 		//1-3 should give value of 1, etc.
-		int horizontalVal = (int) Math.ceil(x/3.0);
+		int horizontalVal = (int) Math.ceil((x+1)/3.0);
 		
 		
 		//1-3 should give value of 0, 4-6 -> 3, 7-9 ->6
-		int verticalVal = 3*(int)Math.floor((y-1)/3.0);
+		int verticalVal = 3*(int)Math.floor(y/3.0);
 
 		
-		return horizontalVal+verticalVal;
+		return horizontalVal+verticalVal-1;
 	}
 
 
@@ -118,6 +120,10 @@ public class Cell {
 			solveArray[i]=false;
 		}
 		
+	}
+	
+	public String toString(){
+		return "Cell in Block "+this.block+" ("+this.coords.x+","+this.coords.y+").  Solved? "+this.isSolved();
 	}
 	
 
