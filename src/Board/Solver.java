@@ -22,23 +22,69 @@ public class Solver {
 	/**checks for solvable things within an array of cells
 	 * 
 	 * @param array
+	 * @return
 	 */
-	public void checkCellArray(Cell[] array){
+	public boolean checkCellArray(Cell[] array){
 
-		checkForHiddenSingles(array);
-		checkForNakedSingles(array);
+		boolean foundACellToSolve=false;
+		
+		if (checkForHiddenSingles(array)){
+			foundACellToSolve=true;
+		}
+		if (checkForNakedSingles(array)){
+			foundACellToSolve=true;
+		}
+		
+		return foundACellToSolve;
 	}
 	
-	private void checkForHiddenSingles(Cell[] array) {
+	
+	/**Looks for a lone number within the array.  If only instance of an integer appears
+	 * it has to go in that cell
+	 * 
+	 * @param array
+	 * @return
+	 */
+	private boolean checkForHiddenSingles(Cell[] array) {
+		
+		boolean foundACellToSolve=false;
 
+		//iterate across numbers 1-9
+		for (int i=1; i<=9; i++){
+			int count = 0;
+			Cell loneCell = null;
+			
+			//iterate over input array
+			for(Cell cell: array){
+
+				//if this value is still legal..
+				if (cell.checkValue(i)){
+					
+					//iterate count
+					count++;
+					loneCell = cell;
+				}
+			}
+			
+			//how many cells can take that value?  null check is just in case
+			if(count==1 && loneCell!=null){
+				loneCell.setSolvedValue(i);
+				foundACellToSolve=true;
+			}
+		}
+		
+		return foundACellToSolve;
 		
 	}
 
 	/** Does what it says on the box.  Looks for a cell that has all but one option eliminated from it
 	 * 
 	 * @param array
+	 * @return
 	 */
-	private void checkForNakedSingles(Cell[] array) {
+	private boolean checkForNakedSingles(Cell[] array) {
+		
+		boolean foundACellToSolve = false;
 		
 		//initialize at 0 (an invalid sudoku answer
 		int value=0;
@@ -46,26 +92,33 @@ public class Solver {
 		//iterate over array
 		for(Cell cell:array){
 			
-			//count of how many trues we find (how many valid numbers remain for this cell)
-			int count=0;
-			//iterate 1 through 9
-			for(int i=1;i<=9;i++){
+			//if cell already solved, skip
+			if(cell.isSolved()){
+			
+				//count of how many trues we find (how many valid numbers remain for this cell)
+				int count=0;
+				//iterate 1 through 9
+				for(int i=1;i<=9;i++){
 				
-				//if that value is still good...
-				if(cell.checkValue(i)){
-					//increment count of valid options...
-					count++;
-					//and store it
-					value=i;
+					//if that value is still good...
+					if(cell.checkValue(i)){
+						//increment count of valid options...
+						count++;
+						//and store it
+						value=i;
+					}
+				}
+			
+				//if only one valid option remains in Cell... 
+				if (count==1 && value!=0){ //value check is a fail safe sort of check.  I can't fathom a scenario where it might be relevant
+				//then it is solved
+					setSolvedCell(cell, value);
+					foundACellToSolve = true;
 				}
 			}
-			
-			//if only one valid option remains in Cell... 
-			if (count==1 && value!=0){ //value check is a fail safe sort of check.  I can't fathom a scenario where it might be relevant
-			//then it is solved
-				setSolvedCell(cell, value);
-			}
 		}
+		
+		return foundACellToSolve;
 		
 	}
 
