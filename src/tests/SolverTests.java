@@ -48,6 +48,10 @@ public class SolverTests {
 		assertTrue(sameBlock[8].checkValue(1));
 	}
 	
+	/**
+	 * Checks that hidden single found correctly
+	 *
+	 */
 	@Test
 	public void testHiddenSingles() {
 		Solver testSolver = new Solver();
@@ -90,6 +94,46 @@ public class SolverTests {
 		
 		//cell should now be solved
 		assertTrue(checkCell.isSolved());
+	}
+	
+	
+	/**
+	 * check that naked singles found correctly
+	 */
+	@Test
+	public void testNakedSingle(){
+		Solver testSolver = new Solver();
+		
+		//get block 0
+		Cell[] block = testSolver.grid.getBlock(0);
+		
+		//iterate over the first 8 cells
+		for (int i=0; i<=7; i++){
+			
+			//solve with value of i+1 (due to index 0)
+			testSolver.setSolvedCell(block[i], i+1);
+		}
+		
+		//grab cell we are checking
+		Cell testCell = block[8];
+		
+		//Check current valid numbers
+		for (int i=1; i<=9; i++){
+			if (i==9){
+				assertTrue(testCell.checkValue(i));
+			}else{
+				assertFalse(testCell.checkValue(i));
+			}
+		}
+		
+		//make sure it isn't solved yet
+		assertFalse(testCell.isSolved());
+		
+		//should find a naked single
+		assertTrue(testSolver.checkCellArray(block));
+		
+		//cell should be solved now
+		assertTrue(testCell.isSolved());
 	}
 
 }
