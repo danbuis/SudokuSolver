@@ -108,6 +108,35 @@ public class CellTests {
 		assertTrue(testCell.checkValue(8));
 		assertTrue(testCell.checkValue(9));
 		
+		
+	}
+	
+	@Test
+	public void testSameCandidatesRemain(){
+		Cell test1 = new Cell(0,0);
+		Cell test2 = new Cell(1,1);
+		Cell test3 = new Cell(2,2);
+		
+		assertTrue(test1.sameCandidatesRemain(test3));
+		assertTrue(test2.sameCandidatesRemain(test1));
+		
+		test2.eliminateValue(9);
+		
+		assertFalse(test2.sameCandidatesRemain(test1));
+		assertFalse(test1.sameCandidatesRemain(test2));
+	}
+	
+	@Test
+	public void testHowManyCandidatesRemain(){
+		Cell test1 = new Cell(0,0);
+		
+		assertEquals(9, test1.howManyCandidatesRemain());
+		
+		test1.eliminateValue(1);
+		assertEquals(8, test1.howManyCandidatesRemain());
+		
+		test1.setSolvedValue(2);
+		assertEquals(1, test1.howManyCandidatesRemain());
 	}
 
 }

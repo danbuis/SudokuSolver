@@ -126,5 +126,50 @@ public class Cell {
 		return "Cell in Block "+this.block+" ("+this.coords.x+","+this.coords.y+").  Solved? "+this.isSolved();
 	}
 	
+	public boolean equals(Cell otherCell){
+		if(this.coords.x==otherCell.coords.x && this.coords.y==otherCell.coords.y){
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	/**
+	 * Checks to see if other Cell has the EXACT same candidates remaining as this cell
+	 * @param otherCell
+	 * @return
+	 */
+	public boolean sameCandidatesRemain(Cell otherCell){
+		
+		for (int i=1; i<=9; i++){
+			if (!this.checkValue(i)==otherCell.checkValue(i)){
+				return false;
+			}
+		}
+		
+		return true;
+		
+	}
+	/**
+	 * A simple method to see how many candidates remain in the cell
+	 * @return
+	 */
+	
+	public int howManyCandidatesRemain(){
+		//initialize count at 0
+		int returnVal=0;
+		
+		//iterate 1-9
+		for (int i=1; i<=9; i++){
+			//if candidate is still an option, increment
+			if(this.checkValue(i)){
+				returnVal++;
+			}
+		}
+		
+		return returnVal;
+	}
+	
 
 }

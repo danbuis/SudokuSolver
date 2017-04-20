@@ -136,4 +136,59 @@ public class SolverTests {
 		assertTrue(testCell.isSolved());
 	}
 
+	@Test
+	public void testNakedDouble(){
+		Solver testSolver = new Solver();
+		
+		//get block 0
+		Cell[] block = testSolver.grid.getBlock(0);
+		
+		//get column 2
+		Cell[] column = testSolver.grid.getColumn(2);
+		
+		//iterate over first 7 cells of block, leaving the last 2, which are in row 2
+		for (int i=0; i<=6; i++){
+			
+			//solve with value of i+1
+			testSolver.setSolvedCell(block[i], i+1);
+		}
+		
+		//grab the 2 cells in question
+		Cell cell7 = block[7];
+		Cell cell8 = block[8];
+		
+		//double check that the 2 cells only have the 8 and 9 remaining as candidates
+		for (int i=1; i<=9; i++){
+			if(i>=8){
+				assertTrue(cell7.checkValue(i));
+				assertTrue(cell8.checkValue(i));
+			}else{
+				assertFalse(cell7.checkValue(i));
+				assertFalse(cell8.checkValue(i));
+			}
+		}
+		
+		//assuming that passes, we'll verify that they cells in question are in fact in column 2
+		
+		assertEquals(2, cell7.getCoords().x);
+		assertEquals(2, cell8.getCoords().x);
+		
+		//lets that check a few other cells in that column can take 8 or 9
+		assertTrue(column[5].checkValue(8));
+		assertTrue(column[4].checkValue(8));
+		assertTrue(column[5].checkValue(9));
+		assertTrue(column[4].checkValue(9));		
+
+		//should find a naked double in the column
+		assertTrue(testSolver.checkCellArray(column));
+		
+		//lastly we'll check that those other cells can no longer take 8 or 9
+		assertFalse(column[5].checkValue(8));
+		assertFalse(column[4].checkValue(8));
+		assertFalse(column[5].checkValue(9));
+		assertFalse(column[4].checkValue(9));
+	}
+	
 }
+
+
