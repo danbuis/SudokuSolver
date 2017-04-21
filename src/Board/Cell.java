@@ -21,6 +21,8 @@ public class Cell {
 	//what square group of 9 is this cell in.  
 	private int block;
 	
+	public int solvedValue = 0;
+	
 	/**
 	 * generic constructor
 	 * @param x
@@ -100,6 +102,7 @@ public class Cell {
 		scrubSolveArray(); //prep array for solved status
 		solveArray[0]=true; //set cell solved to true
 		solveArray[solvedValue]=true; //set final value to true
+		this.solvedValue=solvedValue;
 	}
 	
 	

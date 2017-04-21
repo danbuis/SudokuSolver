@@ -126,5 +126,17 @@ Cell[] returnArray = new Cell[9];
 	public Cell[] getBlock(int block){
 		return cellGroups[block];
 	}
+	
+	public void printGrid(){
+		for (int y=0; y<=8; y++){
+			String row = "";
+			for (int x=0; x<=8; x++){
+						
+				row =row+" "+this.cellArray[x][y].solvedValue;
+
+			}//end y loop
+			System.out.println(row);
+		}//end x loop
+	}
 
 }

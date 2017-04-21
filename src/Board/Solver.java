@@ -23,12 +23,50 @@ public class Solver {
 		
 	}
 	
+	public void solveGrid(){
+		int cycles=0; //keep track of cycles so that we don't get caught in an infinite loop, this will give an exit point
+		boolean madeProgress = true;
+		
+		while(cycles<400 && madeProgress){
+			//did we make any progress?
+			madeProgress = checkAll();
+			
+			//increment counter
+			cycles++;
+			
+		}
+		
+		System.out.println("ran through "+cycles+" cycles");
+		grid.printGrid();
+	}
+	
+	
+	/** check all rows, columns, and blocks.  Keep track if we made progress anywhere.
+	 * 
+	 * @return
+	 */
+	public boolean checkAll(){
+		boolean madeProgress= false;
+		
+		for (int i=0; i<=8; i++){
+			
+			//System.out.println("inside check all loop");
+			//uses a bunch of OR booleans, because we aren't picky about where progress is made
+			madeProgress = madeProgress || checkCellArray(grid.getBlock(i));
+			madeProgress = madeProgress || checkCellArray(grid.getRow(i));
+			madeProgress = madeProgress || checkCellArray(grid.getColumn(i));
+		}
+		
+		return madeProgress;
+	}
+	
 	/**checks for solvable things within an array of cells
 	 * 
 	 * @param array
 	 * @return
 	 */
 	public boolean checkCellArray(Cell[] array){
+		//System.out.println("inside checkCellArray");
 
 		boolean foundACellToSolve=false;
 		
