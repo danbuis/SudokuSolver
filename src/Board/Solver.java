@@ -38,9 +38,13 @@ public class Solver {
 		if (checkForNakedSingles(array)){
 			foundACellToSolve=true;
 		}
+		if (checkForHiddenDoubles(array)){
+			foundACellToSolve=true;
+		}
 		if (checkForNakedDoubles(array)){
 			foundACellToSolve=true;
 		}
+		
 		
 		return foundACellToSolve;
 	}
@@ -137,22 +141,17 @@ public class Solver {
 					Cell cell1 = candidateLocations.get(outside).get(0);
 					Cell cell2 = candidateLocations.get(outside).get(1);
 					
-					int val1=0;
-					int val2=0;
-					
 					//process 2 cells
 					for (int i=1; i<=9; i++){
+						//if both cells can accept this value, and its on the list of double candidates, its a keeper
 						if(cell1.checkValue(i)&&cell2.checkValue(i)&& listOfDoubleCandidates.contains(i)){
-							if(val1==0){
-								val1=i;
-							}else{
-								val2=i;
-							}
+							foundACellToSolve=true;
+						} else{
+							//else, get rid of it
+							cell1.eliminateValue(i);
+							cell2.eliminateValue(i);
 						}
 					}//end for loop
-					
-					//TODO
-					
 				}//end if loop
 			}//end inside Loop
 		}//end outside loop

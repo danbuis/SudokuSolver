@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import Board.Cell;
-import Board.Grid;
 import Board.Solver;
 
 public class SolverTests {
@@ -187,6 +186,63 @@ public class SolverTests {
 		assertFalse(column[4].checkValue(8));
 		assertFalse(column[5].checkValue(9));
 		assertFalse(column[4].checkValue(9));
+	}
+	
+	
+	@Test
+	public void testHiddenDouble(){
+		Solver testSolver = new Solver();
+		
+		//get block 0
+		Cell[] block = testSolver.grid.getBlock(0);
+		
+		//arrange it such that the 2 cells are the only ones with a 1 and a 2 left.
+		testSolver.setSolvedCell(testSolver.grid.getCellArray()[5][0],1); // something way over in the top row
+		testSolver.setSolvedCell(testSolver.grid.getCellArray()[6][0],2); //another one
+		
+		testSolver.setSolvedCell(testSolver.grid.getCellArray()[0][8],1); //one way down in the first column
+		testSolver.setSolvedCell(testSolver.grid.getCellArray()[0][7],2); //and its neighbor
+		
+		testSolver.setSolvedCell(testSolver.grid.getCellArray()[1][4],1); //one in the middle of 2nd column
+		testSolver.setSolvedCell(testSolver.grid.getCellArray()[1][3],2); //and its neighbor
+		
+		//grab the 2 cells in question
+		Cell cell7 = testSolver.grid.getCellArray()[2][1];
+		Cell cell8 = testSolver.grid.getCellArray()[2][2];
+		
+		//double check that the 2 cells can still take 1 & 2, and that no one else can
+		for (Cell cell:block){
+			
+			if(cell.equals(cell8) || cell.equals(cell7)){
+				assertTrue(cell.checkValue(1));
+				assertTrue(cell.checkValue(2));
+			}else{
+				assertFalse(cell.checkValue(2));
+				assertFalse(cell.checkValue(1));
+			}
+		}
+		
+
+		//verify that cell 8 and cell 7 can take any number, 1-9
+		for(int i=1; i<=9; i++){
+			assertTrue(cell7.checkValue(i));
+			assertTrue(cell8.checkValue(i));
+		}
+		
+		//should find a hidden double in the column
+		assertTrue(testSolver.checkCellArray(block));
+		
+		//and consequently remove all except 1 and 2
+		for (int i=1; i<=9; i++){
+			if(i>2){
+				assertFalse(cell7.checkValue(i));
+				assertFalse(cell8.checkValue(i));
+			}else{
+				assertTrue(cell7.checkValue(i));
+				assertTrue(cell8.checkValue(i));
+			}
+		}
+		
 	}
 	
 }

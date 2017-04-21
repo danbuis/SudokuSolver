@@ -126,6 +126,14 @@ public class Cell {
 		return "Cell in Block "+this.block+" ("+this.coords.x+","+this.coords.y+").  Solved? "+this.isSolved();
 	}
 	
+	public void extendedToString(){
+		System.out.println(this.toString());
+		
+		for (int i=1;i<=9;i++){
+			System.out.println(i+"? : "+ this.checkValue(i));
+		}
+	}
+	
 	public boolean equals(Cell otherCell){
 		if(this.coords.x==otherCell.coords.x && this.coords.y==otherCell.coords.y){
 			return true;
