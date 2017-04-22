@@ -81,6 +81,10 @@ public class Grid {
 		return this.cellArray;
 	}
 	
+	public Cell getCell(int x, int y){
+		return this.getCellArray()[x][y];
+	}
+	
 	
 	/** gets all the groups
 	 * 

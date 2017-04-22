@@ -14,6 +14,8 @@ import java.util.List;
  */
 public class Solver {
 	
+	public int cycles=10;
+	
 	public Grid grid = new Grid();
 
 	/**
@@ -24,19 +26,21 @@ public class Solver {
 	}
 	
 	public void solveGrid(){
-		int cycles=0; //keep track of cycles so that we don't get caught in an infinite loop, this will give an exit point
+		int cycles=this.cycles; //keep track of cycles so that we don't get caught in an infinite loop, this will give an exit point
 		boolean madeProgress = true;
-		
-		while(cycles<400 && madeProgress){
+
+		while(cycles>0 && madeProgress){
+
 			//did we make any progress?
 			madeProgress = checkAll();
 			
 			//increment counter
-			cycles++;
+			cycles--;
+
 			
 		}
 		
-		System.out.println("ran through "+cycles+" cycles");
+		System.out.println("ran through "+(this.cycles-cycles)+" cycles");
 		grid.printGrid();
 	}
 	
@@ -50,11 +54,21 @@ public class Solver {
 		
 		for (int i=0; i<=8; i++){
 			
+			Cell cellToWatch = grid.getCellArray()[1][7];
+			boolean progressBlock = checkCellArray(grid.getBlock(i));
+			//cellToWatch.extendedToString();
+			
+			boolean progressRow = checkCellArray(grid.getRow(i));
+			//cellToWatch.extendedToString();
+			
+			boolean progressColumn = checkCellArray(grid.getColumn(i));
+			//cellToWatch.extendedToString();
+			
 			//System.out.println("inside check all loop");
 			//uses a bunch of OR booleans, because we aren't picky about where progress is made
-			madeProgress = madeProgress || checkCellArray(grid.getBlock(i));
-			madeProgress = madeProgress || checkCellArray(grid.getRow(i));
-			madeProgress = madeProgress || checkCellArray(grid.getColumn(i));
+			madeProgress = madeProgress || progressBlock;
+			madeProgress = madeProgress || progressRow;
+			madeProgress = madeProgress || progressColumn;
 		}
 		
 		return madeProgress;
@@ -76,12 +90,12 @@ public class Solver {
 		if (checkForNakedSingles(array)){
 			foundACellToSolve=true;
 		}
-		if (checkForHiddenDoubles(array)){
+		/*if (checkForHiddenDoubles(array)){
 			foundACellToSolve=true;
 		}
 		if (checkForNakedDoubles(array)){
 			foundACellToSolve=true;
-		}
+		}*/
 		
 		
 		return foundACellToSolve;
@@ -101,24 +115,31 @@ public class Solver {
 		//iterate across numbers 1-9
 		for (int i=1; i<=9; i++){
 			int count = 0;
-			Cell loneCell = null;
+			//Cell loneCell = null;
+			int CellX = 0; 
+			int CellY = 0;
 			
 			//iterate over input array
 			for(Cell cell: array){
 
-				//if this value is still legal..
-				if (cell.checkValue(i)){
+				//if this value is still legal and cell is not solved.
+				if (!cell.isSolved() && cell.checkValue(i)){
 					
 					//iterate count
 					count++;
-					loneCell = cell;
+					CellX=cell.getCoords().x;
+					CellY=cell.getCoords().y;
 				}
 			}
 			
-			//how many cells can take that value?  null check is just in case
-			if(count==1 && loneCell!=null){
-				loneCell.setSolvedValue(i);
+			//how many cells can take that value?  
+			if(count==1){
 				foundACellToSolve=true;
+				setSolvedCell(grid.getCell(CellX,CellY),i);
+					
+				System.out.println("Found a hidden single -");
+				System.out.println(grid.getCell(CellX,  CellY).toString());
+				
 			}
 		}
 		
@@ -184,6 +205,9 @@ public class Solver {
 						//if both cells can accept this value, and its on the list of double candidates, its a keeper
 						if(cell1.checkValue(i)&&cell2.checkValue(i)&& listOfDoubleCandidates.contains(i)){
 							foundACellToSolve=true;
+							System.out.println("Found part of a hidden double - "+i);
+							System.out.println(cell1.toString());
+							System.out.println(cell2.toString());
 						} else{
 							//else, get rid of it
 							cell1.eliminateValue(i);
@@ -214,7 +238,7 @@ public class Solver {
 		for(Cell cell:array){
 			
 			//if cell already solved, skip
-			if(cell.isSolved()){
+			if(!cell.isSolved()){
 			
 				//count of how many trues we find (how many valid numbers remain for this cell)
 				int count=0;
@@ -235,6 +259,8 @@ public class Solver {
 				//then it is solved
 					setSolvedCell(cell, value);
 					foundACellToSolve = true;
+					System.out.println("Found a naked single -");
+					System.out.println(cell.toString());
 				}
 			}
 		}
@@ -311,7 +337,10 @@ public class Solver {
 					
 					//successfully found a naked double, exit method gracefully and communicate success to caller function
 					foundACellToSolve= true;
-					return foundACellToSolve;
+					System.out.println("Found a naked double - "+val1+", "+val2);
+					System.out.println(cell1);
+					System.out.println(cell2);
+					
 					
 				}//end of "we have a match" loop
 				

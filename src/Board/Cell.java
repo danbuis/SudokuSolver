@@ -126,7 +126,7 @@ public class Cell {
 	}
 	
 	public String toString(){
-		return "Cell in Block "+this.block+" ("+this.coords.x+","+this.coords.y+").  Solved? "+this.isSolved();
+		return "Cell in Block "+this.block+" ("+this.coords.x+","+this.coords.y+").  Solved? "+this.isSolved()+" "+this.solvedValue;
 	}
 	
 	public void extendedToString(){
