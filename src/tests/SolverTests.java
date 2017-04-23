@@ -27,7 +27,7 @@ public class SolverTests {
 	public void testSetSolvedCell() {
 		Solver testSolver = new Solver();
 		
-		Cell solvedCell = testSolver.grid.getCellArray()[0][0];
+		Cell solvedCell = testSolver.grid.getCell(0,0);
 		
 		testSolver.setSolvedCell(solvedCell, 9);
 		
@@ -59,11 +59,11 @@ public class SolverTests {
 		//set cells in other places so that block 0 can only have a 
 		//1 at 0,0
 		
-		Cell row2 = testSolver.grid.getCellArray()[3][1];
-		Cell row3 = testSolver.grid.getCellArray()[7][2];
-		Cell col2 = testSolver.grid.getCellArray()[1][3];
-		Cell col3 = testSolver.grid.getCellArray()[2][7];
-		Cell checkCell = testSolver.grid.getCellArray()[0][0];
+		Cell row2 = testSolver.grid.getCell(3,1);
+		Cell row3 = testSolver.grid.getCell(7,2);
+		Cell col2 = testSolver.grid.getCell(1,3);
+		Cell col3 = testSolver.grid.getCell(2,7);
+		Cell checkCell = testSolver.grid.getCell(0,0);
 		
 		testSolver.setSolvedCell(row2, 1);
 		testSolver.setSolvedCell(row3, 1);
@@ -99,7 +99,7 @@ public class SolverTests {
 	@Test
 	public void testSkipASolvedCell(){
 		Solver testSolver = new Solver();
-		Cell testCell = testSolver.grid.getCellArray()[0][0];
+		Cell testCell = testSolver.grid.getCell(0,0);
 		
 		testSolver.setSolvedCell(testCell, 1);
 		
@@ -214,18 +214,18 @@ public class SolverTests {
 		Cell[] block = testSolver.grid.getBlock(0);
 		
 		//arrange it such that the 2 cells are the only ones with a 1 and a 2 left.
-		testSolver.setSolvedCell(testSolver.grid.getCellArray()[5][0],1); // something way over in the top row
-		testSolver.setSolvedCell(testSolver.grid.getCellArray()[6][0],2); //another one
+		testSolver.setSolvedCell(testSolver.grid.getCell(5,0),1); // something way over in the top row
+		testSolver.setSolvedCell(testSolver.grid.getCell(6,0),2); //another one
 		
-		testSolver.setSolvedCell(testSolver.grid.getCellArray()[0][8],1); //one way down in the first column
-		testSolver.setSolvedCell(testSolver.grid.getCellArray()[0][7],2); //and its neighbor
+		testSolver.setSolvedCell(testSolver.grid.getCell(0,8),1); //one way down in the first column
+		testSolver.setSolvedCell(testSolver.grid.getCell(0,7),2); //and its neighbor
 		
-		testSolver.setSolvedCell(testSolver.grid.getCellArray()[1][4],1); //one in the middle of 2nd column
-		testSolver.setSolvedCell(testSolver.grid.getCellArray()[1][3],2); //and its neighbor
+		testSolver.setSolvedCell(testSolver.grid.getCell(1,4),1); //one in the middle of 2nd column
+		testSolver.setSolvedCell(testSolver.grid.getCell(1,3),2); //and its neighbor
 		
 		//grab the 2 cells in question
-		Cell cell7 = testSolver.grid.getCellArray()[2][1];
-		Cell cell8 = testSolver.grid.getCellArray()[2][2];
+		Cell cell7 = testSolver.grid.getCell(2,1);
+		Cell cell8 = testSolver.grid.getCell(2,2);
 		
 		//double check that the 2 cells can still take 1 & 2, and that no one else can
 		for (Cell cell:block){
@@ -268,50 +268,50 @@ public class SolverTests {
 	public void mysteryTest1(){
 		
 		Solver solver = new Solver();
-		solver.setSolvedCell(solver.grid.getCellArray()[0][0], 2);
-		solver.setSolvedCell(solver.grid.getCellArray()[3][0], 8);
-		solver.setSolvedCell(solver.grid.getCellArray()[5][0], 4);
-		solver.setSolvedCell(solver.grid.getCellArray()[8][0], 6);
+		solver.setSolvedCell(solver.grid.getCell(0,0), 2);
+		solver.setSolvedCell(solver.grid.getCell(3,0), 8);
+		solver.setSolvedCell(solver.grid.getCell(5,0), 4);
+		solver.setSolvedCell(solver.grid.getCell(8,0), 6);
 		
-		solver.setSolvedCell(solver.grid.getCellArray()[2][1], 6);
-		solver.setSolvedCell(solver.grid.getCellArray()[6][1], 5);
+		solver.setSolvedCell(solver.grid.getCell(2,1), 6);
+		solver.setSolvedCell(solver.grid.getCell(6,1), 5);
 		
-		solver.setSolvedCell(solver.grid.getCellArray()[1][2], 7);
-		solver.setSolvedCell(solver.grid.getCellArray()[2][2], 4);
-		solver.setSolvedCell(solver.grid.getCellArray()[6][2], 9);
-		solver.setSolvedCell(solver.grid.getCellArray()[7][2], 2);
+		solver.setSolvedCell(solver.grid.getCell(1,2), 7);
+		solver.setSolvedCell(solver.grid.getCell(2,2), 4);
+		solver.setSolvedCell(solver.grid.getCell(6,2), 9);
+		solver.setSolvedCell(solver.grid.getCell(7,2), 2);
 		
-		solver.setSolvedCell(solver.grid.getCellArray()[0][3], 3);
-		solver.setSolvedCell(solver.grid.getCellArray()[4][3], 4);
-		solver.setSolvedCell(solver.grid.getCellArray()[8][3], 7);
+		solver.setSolvedCell(solver.grid.getCell(0,3), 3);
+		solver.setSolvedCell(solver.grid.getCell(4,3), 4);
+		solver.setSolvedCell(solver.grid.getCell(8,3), 7);
 		
-		solver.setSolvedCell(solver.grid.getCellArray()[3][4], 3);
-		solver.setSolvedCell(solver.grid.getCellArray()[5][4], 5);
+		solver.setSolvedCell(solver.grid.getCell(3,4), 3);
+		solver.setSolvedCell(solver.grid.getCell(5,4), 5);
 		
-		solver.setSolvedCell(solver.grid.getCellArray()[0][5], 4);
-		solver.setSolvedCell(solver.grid.getCellArray()[4][5], 6);
-		solver.setSolvedCell(solver.grid.getCellArray()[8][5], 9);
+		solver.setSolvedCell(solver.grid.getCell(0,5), 4);
+		solver.setSolvedCell(solver.grid.getCell(4,5), 6);
+		solver.setSolvedCell(solver.grid.getCell(8,5), 9);
 		
-		solver.setSolvedCell(solver.grid.getCellArray()[1][6], 1);
-		solver.setSolvedCell(solver.grid.getCellArray()[2][6], 9);
-		solver.setSolvedCell(solver.grid.getCellArray()[6][6], 7);
-		solver.setSolvedCell(solver.grid.getCellArray()[7][6], 4);
+		solver.setSolvedCell(solver.grid.getCell(1,6), 1);
+		solver.setSolvedCell(solver.grid.getCell(2,6), 9);
+		solver.setSolvedCell(solver.grid.getCell(6,6), 7);
+		solver.setSolvedCell(solver.grid.getCell(7,6), 4);
 		
-		solver.setSolvedCell(solver.grid.getCellArray()[2][7], 8);
-		solver.setSolvedCell(solver.grid.getCellArray()[6][7], 2);
+		solver.setSolvedCell(solver.grid.getCell(2,7), 8);
+		solver.setSolvedCell(solver.grid.getCell(6,7), 2);
 		
-		solver.setSolvedCell(solver.grid.getCellArray()[0][8], 5);
-		solver.setSolvedCell(solver.grid.getCellArray()[3][8], 6);
-		solver.setSolvedCell(solver.grid.getCellArray()[5][8], 8);
-		solver.setSolvedCell(solver.grid.getCellArray()[8][8], 1);
+		solver.setSolvedCell(solver.grid.getCell(0,8), 5);
+		solver.setSolvedCell(solver.grid.getCell(3,8), 6);
+		solver.setSolvedCell(solver.grid.getCell(5,8), 8);
+		solver.setSolvedCell(solver.grid.getCell(8,8), 1);
 		
 		/* Now solve a few cells.  In initial trials cell 1,7 had a 4 remaining, even
 		 * though a 4 had been placed in 3,7 earlier.*/
-		solver.setSolvedCell(solver.grid.getCellArray()[0][6], 6);
-		solver.setSolvedCell(solver.grid.getCellArray()[0][7], 6);
+		solver.setSolvedCell(solver.grid.getCell(0,6), 6);
+		solver.setSolvedCell(solver.grid.getCell(0,7), 6);
 		
 		//grab the cell in question
-		Cell problemCell = solver.grid.getCellArray()[1][7];
+		Cell problemCell = solver.grid.getCell(1,7);
 		
 		//grab the column it was being solved in
 		Cell[] column = solver.grid.getColumn(1);
@@ -320,7 +320,7 @@ public class SolverTests {
 		assertTrue(problemCell.checkValue(4));
 		
 		//Here is the solve that should have eliminated a 4
-		solver.setSolvedCell(solver.grid.getCellArray()[3][7], 4);
+		solver.setSolvedCell(solver.grid.getCell(3,7), 4);
 		
 		//Verify that the cell can no longer take a 4;
 		assertFalse(problemCell.checkValue(4));

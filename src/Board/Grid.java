@@ -77,7 +77,7 @@ public class Grid {
 	 * @return
 	 */
 	
-	public Cell[][] getCellArray(){
+	private Cell[][] getCellArray(){
 		return this.cellArray;
 	}
 	

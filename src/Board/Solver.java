@@ -54,7 +54,6 @@ public class Solver {
 		
 		for (int i=0; i<=8; i++){
 			
-			Cell cellToWatch = grid.getCellArray()[1][7];
 			boolean progressBlock = checkCellArray(grid.getBlock(i));
 			//cellToWatch.extendedToString();
 			
@@ -92,10 +91,10 @@ public class Solver {
 		}
 		/*if (checkForHiddenDoubles(array)){
 			foundACellToSolve=true;
-		}
+		}*/
 		if (checkForNakedDoubles(array)){
 			foundACellToSolve=true;
-		}*/
+		}
 		
 		
 		return foundACellToSolve;

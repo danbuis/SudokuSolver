@@ -15,8 +15,8 @@ public class GridTests {
 	@Test
 	public void testConstructor() {
 		Grid testGrid = new Grid();
-		assertNotNull(testGrid.getCellArray()[0][0]);
-		assertNotNull(testGrid.getCellArray()[8][8]);
+		assertNotNull(testGrid.getCell(0,0));
+		assertNotNull(testGrid.getCell(8,8));
 	}
 	
 	/**
@@ -27,19 +27,19 @@ public class GridTests {
 		Grid testGrid = new Grid();
 		
 		//solve this Cell
-		testGrid.getCellArray()[0][0].setSolvedValue(1);
+		testGrid.getCell(0,0).setSolvedValue(1);
 		
 		//check that it is solved in one place
-		assertTrue(testGrid.getCellArray()[0][0].isSolved());
+		assertTrue(testGrid.getCell(0,0).isSolved());
 		
 		//now the other
 		assertTrue(testGrid.getAllBlocks()[0][0].isSolved());
 		
 		//and double check 2 more to make sure its not a fluke
-		assertFalse(testGrid.getCellArray()[0][1].isSolved());
+		assertFalse(testGrid.getCell(0,1).isSolved());
 		assertFalse(testGrid.getAllBlocks()[0][1].isSolved());
 		
-		assertFalse(testGrid.getCellArray()[8][8].isSolved());
+		assertFalse(testGrid.getCell(8,8).isSolved());
 		assertFalse(testGrid.getAllBlocks()[8][8].isSolved());
 		
 	}
