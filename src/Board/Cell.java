@@ -1,6 +1,13 @@
 package Board;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
+
 
 /**
  * This cell is one of 81 units on the whole board.  It keeps track of what possible numbers can still go in it, and
@@ -17,6 +24,7 @@ public class Cell {
 	
 	//Representation of coordinates of cell
 	private Point coords;
+	private Rectangle bounds;
 	
 	//what square group of 9 is this cell in.  
 	private int block;
@@ -181,6 +189,130 @@ public class Cell {
 		
 		return returnVal;
 	}
+	
+	
+	public void draw(Graphics g, int x, int y, int width) {
+		
+		//draw background coler
+        g.setColor(Color.WHITE);
+        g.fillRect(x, y, width, width);
+        
+        //draw border
+        g.setColor(Color.BLACK);
+        g.drawRect(x, y, width, width);
+        
+        //draw bold borders
+        drawBorder(g, x, y, width);
+        
+        //define default font
+        Font font = g.getFont();
+        
+        //if solved, use a larger font
+        if (this.isSolved()){
+        	Font solvedFont = font.deriveFont((float)(60));
+        	g.setFont(solvedFont);
+        	
+        	AffineTransform affinetransform = new AffineTransform();     
+        	FontRenderContext frc = new FontRenderContext(affinetransform,true,true);     
+        	String solvedString = ""+solvedValue;
+        	int textwidth = (int)(font.getStringBounds(solvedString, frc).getWidth());
+        	int textheight = (int)(font.getStringBounds(solvedString, frc).getHeight());
+        	
+        	g.drawString(solvedString, (int)(x+width*0.4-textwidth/2.0), (int)(y+width*0.7+textheight/2.0));
+        	g.setFont(font);
+        	
+        }else{
+        	int increment1 = (int) (width*0.3)+5;
+        	int increment2 = (int) (width*0.5)+5;
+        	int increment3 = (int) (width*0.7)+5;
+        	g.setFont(font);
+        	
+        	//if 1 is still valid, draw a small 1 up and left of center
+        	if(checkValue(1)){
+        		g.drawString("1", x+increment1-7, y+increment1);	
+        	}
+        	if(checkValue(2)){
+        		g.drawString("2", x+increment2-7, y+increment1);  		
+        	}
+        	if(checkValue(3)){
+        		g.drawString("3", x+increment3-7, y+increment1);
+        	}
+        	if(checkValue(4)){
+        		g.drawString("4", x+increment1-7, y+increment2); 		
+        	}
+        	if(checkValue(5)){
+        		g.drawString("5", x+increment2-7, y+increment2);	
+        	}
+        	if(checkValue(6)){
+        		g.drawString("6", x+increment3-7, y+increment2);
+        	}
+        	if(checkValue(7)){
+        		g.drawString("7", x+increment1-7, y+increment3);	
+        	}
+        	if(checkValue(8)){
+        		g.drawString("8", x+increment2-7, y+increment3);      		
+        	}
+        	if(checkValue(9)){
+        		g.drawString("9", x+increment3-7, y+increment3);
+        	}
+        		
+        	
+        }
+
+ 
+        }
+ 
+    private void drawBorder(Graphics g, int x, int y, int width) {
+       if(coords.x==0 || coords.x==3){
+    	   drawLeftBorder(g,x,y,width);
+       } else if (coords.x==8 || coords.x==5){
+    	   drawRightBorder(g,x,y,width);
+       }
+       
+       if(coords.y==0 || coords.y==3){
+    	   drawTopBorder(g,x,y,width);
+       } else if (coords.y==8 || coords.y==5){
+    	   drawBottomBorder(g,x,y,width);
+       }
+       
+        
+    }
+ 
+    private void drawTopBorder(Graphics g, int x, int y, int width) {
+        g.drawLine(x, y + 1, x + width, y + 1);
+        g.drawLine(x, y + 2, x + width, y + 2);
+    }
+ 
+    private void drawRightBorder(Graphics g, int x, int y, int width) {
+        g.drawLine(x + width - 1, y, x + width - 1, y + width);
+        g.drawLine(x + width - 2, y, x + width - 2, y + width);
+    }
+ 
+    private void drawBottomBorder(Graphics g, int x, int y, int width) {
+        g.drawLine(x, y + width - 1, x + width, y + width - 1);
+        g.drawLine(x, y + width - 2, x + width, y + width - 2);
+    }
+ 
+    private void drawLeftBorder(Graphics g, int x, int y, int width) {
+        g.drawLine(x + 1, y, x + 1, y + width);
+        g.drawLine(x + 2, y, x + 2, y + width);
+    }
+
+
+	public boolean contains(Point point) {
+		return bounds.contains(point);
+	}
+	
+	public void setBounds(Rectangle bounds){
+		this.bounds=bounds;
+	}
+	
+	public void resetCell(){
+		solveArray = new boolean[] {false, true, true, true, true, true, true, true, true, true};
+	}
+ 
+  
+   
 	
 
 }

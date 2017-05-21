@@ -3,9 +3,14 @@
  */
 package Board;
 
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+
 
 /**
  * This is where all the logic for solving the current board state occurs.
@@ -14,7 +19,10 @@ import java.util.List;
  */
 public class Solver {
 	
+	private static final int drawWidth = 70;
+
 	public int cycles=10;
+	private boolean isSetValuesToggles = false;
 	
 	public Grid grid = new Grid();
 
@@ -25,7 +33,7 @@ public class Solver {
 		
 	}
 	
-	public void solveGrid(){
+	public boolean solveGrid(){
 		int cycles=this.cycles; //keep track of cycles so that we don't get caught in an infinite loop, this will give an exit point
 		boolean madeProgress = true;
 
@@ -42,9 +50,30 @@ public class Solver {
 		
 		System.out.println("ran through "+(this.cycles-cycles)+" cycles");
 		grid.printGrid();
+		
+		return isPuzzleSolved();
 	}
 	
-	
+	/**
+	 * Looks at all cells of a puzzle to see if it has been solved.  If any cell is false, it immediately returns
+	 * false and stops checking.
+	 * @return
+	 */
+	private boolean isPuzzleSolved() {
+
+		for (int x=0;x<9; x++){
+			for (int y=0; y<9; y++){
+				
+				if (!grid.getCell(x, y).isSolved()){
+					return false;
+				}
+				
+			}//end y loop
+		}//end x loop
+		
+		return true;
+	}
+
 	/** check all rows, columns, and blocks.  Keep track if we made progress anywhere.
 	 * 
 	 * @return
@@ -398,6 +427,54 @@ public class Solver {
 		for(Cell cell:cellArray){
 			cell.eliminateValue(valueToEliminate);
 		}
+	}
+
+	public void draw(Graphics g) {
+		int x = 0;
+        for (int i = 0; i < 9; i++) {
+            int y = 0;
+            for (int j = 0; j < 9; j++) {
+                Rectangle r = new Rectangle(x, y, drawWidth, drawWidth);
+                grid.getCell(i, j).setBounds(r);
+                grid.getCell(i, j).draw(g, x, y, drawWidth);
+                y += drawWidth;
+            }
+            x += drawWidth;
+        }
+		
+	}
+
+	public Cell getCellLocation(Point point) {
+		for (int x = 0; x < 9; x++) {
+            for (int y = 0; y < 9; y++) {
+                if (grid.getCell(x, y).contains(point)) {
+                	System.out.println("cell "+x+","+y);
+                    return grid.getCell(x, y);
+                }
+            }
+        }
+		return null;
+	
+		
+	}
+
+
+	public boolean isSetValuesToggles() {
+		return isSetValuesToggles;
+	}
+
+	public void setSetValuesToggles(boolean isSetValuesToggles) {
+		this.isSetValuesToggles = isSetValuesToggles;
+	}
+
+	public void reset() {
+		System.out.println("reseting");
+		for (int x=0;x<9;x++){
+			for (int y=0; y<9;y++){
+				grid.getCell(x, y).resetCell();
+			}
+		}
+		
 	}
 
 }

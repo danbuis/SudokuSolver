@@ -1,5 +1,7 @@
 package tests;
 
+import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 import Board.Solver;
@@ -48,10 +50,8 @@ public class SolveEntirePuzzle {
 		
 		solver.grid.printGrid();
 		System.out.println(" ");
-		
-		solver.solveGrid();
-				
-		
+			
+		assertTrue(solver.solveGrid());
 		
 		
 		
