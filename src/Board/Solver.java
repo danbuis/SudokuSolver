@@ -6,9 +6,7 @@ package Board;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+
 
 
 
@@ -23,6 +21,7 @@ public class Solver {
 
 	public int cycles=10;
 	private boolean isSetValuesToggles = false;
+	private boolean clearValues = false;
 	
 	public Grid grid = new Grid();
 
@@ -120,10 +119,10 @@ public class Solver {
 		}
 		/*if (checkForHiddenDoubles(array)){
 			foundACellToSolve=true;
-		}*/
+		}
 		if (checkForNakedDoubles(array)){
 			foundACellToSolve=true;
-		}
+		}*/
 		
 		
 		return foundACellToSolve;
@@ -175,7 +174,7 @@ public class Solver {
 		
 	}
 	
-	private boolean checkForHiddenDoubles(Cell[] array){
+	/*private boolean checkForHiddenDoubles(Cell[] array){
 		boolean foundACellToSolve=false;
 		
 		//initialize arrayLists to hold locations of what Cells can take each number
@@ -248,7 +247,7 @@ public class Solver {
 		
 		
 		return foundACellToSolve;
-	}
+	}*/
 
 	/** Does what it says on the box.  Looks for a cell that has all but one option eliminated from it
 	 * 
@@ -297,87 +296,7 @@ public class Solver {
 		
 	}
 	
-	
-	/**
-	 * looks for 2 cells in the array that can only take the same 2 values.  Eliminates those 2 from the others in the group.
-	 * @param array
-	 * @return
-	 */
-	private boolean checkForNakedDoubles(Cell[] array) {
-		boolean foundACellToSolve = false;
-		Cell cell1 = null;
-		Cell cell2 = null;
-		int val1=0;
-		int val2=0;
-		
-		//structure to hold cells we are going to look at more in depth shortly
-		List<Cell> cellsWithTwoLeft = new ArrayList<Cell>();
-		
-		//go through and only grab the ones that have 2 options left
-		for (Cell cell:array){
-			
-			//can skip solved cells
-			if (!cell.isSolved()){
-				
-				if(cell.howManyCandidatesRemain()==2){
-					cellsWithTwoLeft.add(cell);					
-				}		
-			}//end of if cell solved loop	
-		} //end of for each
-		
-		
-		//now that array has been filtered to ONLY cells with 2, we can look through what we have to see if we have a match
-		//double loop to check all pairs
-		for (int outside=0; outside<=cellsWithTwoLeft.size()-2; outside++){
-			for (int inside = outside+1; inside<=cellsWithTwoLeft.size()-1; inside++){
-				
-				//hey look, we have a match!  Lets do stuff
-				if(cellsWithTwoLeft.get(outside).sameCandidatesRemain(cellsWithTwoLeft.get(inside))){
-		
-					//set matching cells for easy/clear reference later
-					cell1 = cellsWithTwoLeft.get(outside);
-					cell2 = cellsWithTwoLeft.get(inside);
-					
-					//find the 2 candidate values
-					for(int i=1; i<=9;i++){
-						if(cell1.checkValue(i)){
-							if (val1==0){
-								val1=i;
-							}else val2=i;
-						}
-					}//end of for loop looking for 2 values
-					
-					
-					/*For each cell in array...
-					 * 1)Make sure it isn't one of the 2 in question
-					 * 2)Eliminate the 2 values in the cell
-					 */
-					for(Cell cell:array){
 
-						//if it doesn't equal cell1 and it doesn't equal cell2...
-						if(!cell.equals(cell1)&&!cell.equals(cell2)){
-
-							//eliminate the 2 values
-							cell.eliminateValue(val1);
-							cell.eliminateValue(val2);
-						}
-					}
-					
-					//successfully found a naked double, exit method gracefully and communicate success to caller function
-					foundACellToSolve= true;
-					System.out.println("Found a naked double - "+val1+", "+val2);
-					System.out.println(cell1);
-					System.out.println(cell2);
-					
-					
-				}//end of "we have a match" loop
-				
-			}//end inside loop
-		}//end outside loop
-		
-		
-		return foundACellToSolve;
-	}
 
 	/** Set solution for this cell
 	 * 
@@ -475,6 +394,14 @@ public class Solver {
 			}
 		}
 		
+	}
+
+	public boolean isClearValues() {
+		return clearValues;
+	}
+
+	public void setClearValues(boolean clearValues) {
+		this.clearValues = clearValues;
 	}
 
 }

@@ -7,15 +7,19 @@ import javax.swing.JPanel;
 
 import Board.Solver;
 
+/**
+ * JPanel that holds the puzzle for the GUI
+ * @author Buis
+ *
+ */
+
 public class PuzzlePanel extends JPanel{
 	
 
 	private Solver currentPuzzle;
-	private JFrame frame;
 	
 	public PuzzlePanel( Solver puzzle, JFrame frame){
 		currentPuzzle = puzzle; //to have access to puzzle
-		this.frame = frame;
 		this.addMouseListener(new SudokuMouseListener(frame, currentPuzzle, this));
 		new JPanel();
 		
