@@ -48,7 +48,7 @@ public class CellTests {
 	public void testSetSolvedValue() {
 		assertFalse(testCell1.isSolved());
 		
-		testCell1.setSolvedValue(2);
+		testCell1.setSolvedValue(2, false);
 		
 		assertTrue(testCell1.isSolved());
 		assertFalse(testCell1.checkValue(1));
@@ -68,7 +68,7 @@ public class CellTests {
 	public void testIsSolved() {
 		assertFalse(testCell6.isSolved());
 		
-		testCell6.setSolvedValue(9);
+		testCell6.setSolvedValue(9, false);
 		
 		assertTrue(testCell6.isSolved());
 	}
@@ -78,7 +78,7 @@ public class CellTests {
 		assertTrue(testCell1.checkValue(1));
 		assertTrue(testCell1.checkValue(7));
 		
-		testCell6.setSolvedValue(9);
+		testCell6.setSolvedValue(9, false);
 		
 		assertTrue(testCell6.checkValue(9));
 		assertFalse(testCell6.checkValue(7));
@@ -135,7 +135,7 @@ public class CellTests {
 		test1.eliminateValue(1);
 		assertEquals(8, test1.howManyCandidatesRemain());
 		
-		test1.setSolvedValue(2);
+		test1.setSolvedValue(2, false);
 		assertEquals(1, test1.howManyCandidatesRemain());
 	}
 

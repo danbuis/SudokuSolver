@@ -49,8 +49,57 @@ public class Solver {
 		
 		System.out.println("ran through "+(this.cycles-cycles)+" cycles");
 		grid.printGrid();
+		if(!isPuzzleSolved()){
+			System.out.println("attempting recursion");
+		
+			solveRecursion(0, 0);
+		
+			grid.printGrid();
+		}
 		
 		return isPuzzleSolved();
+	}
+	
+	public void solveRecursion(int x, int y){
+		int numberToTry = 1;
+		Cell cell=grid.getCell(x, y);
+		
+		while(numberToTry<10){
+			//if this number can go into this cell
+			if(cell.checkValue(numberToTry)){
+				this.setSolvedCell(cell, numberToTry, true);
+				
+				if(x==8 && y==8){
+					break;
+				}
+				
+				//on to the next cell
+				if(x!=8){
+					solveRecursion(x+1, y);
+				}else solveRecursion(0,y+1);
+				
+				/*if(!isPuzzleSolved()){
+					grid.unsolveCell(cell);
+				}*/
+				
+			}//end if loop
+			
+			
+			
+			numberToTry++;
+		}//end while
+		
+		//if numberToTry is 10, we have run out of options, clean up and return to caller
+		if(numberToTry==10){
+			grid.unsolveCell(cell);
+			return;
+		}
+		
+	
+	}
+	
+	public void next(int x, int y){
+		
 	}
 	
 	/**
@@ -162,7 +211,7 @@ public class Solver {
 			//how many cells can take that value?  
 			if(count==1){
 				foundACellToSolve=true;
-				setSolvedCell(grid.getCell(CellX,CellY),i);
+				setSolvedCell(grid.getCell(CellX,CellY),i, false);
 					
 				System.out.println("Found a hidden single -");
 				System.out.println(grid.getCell(CellX,  CellY).toString());
@@ -284,7 +333,7 @@ public class Solver {
 				//if only one valid option remains in Cell... 
 				if (count==1 && value!=0){ //value check is a fail safe sort of check.  I can't fathom a scenario where it might be relevant
 				//then it is solved
-					setSolvedCell(cell, value);
+					setSolvedCell(cell, value, false);
 					foundACellToSolve = true;
 					System.out.println("Found a naked single -");
 					System.out.println(cell.toString());
@@ -303,7 +352,7 @@ public class Solver {
 	 * @param solvedCell
 	 * @param solution
 	 */
-	public void setSolvedCell(Cell solvedCell, int solution){
+	public void setSolvedCell(Cell solvedCell, int solution, boolean isTemp){
 		
 		if (!solvedCell.isSolved()){
 			
@@ -311,7 +360,7 @@ public class Solver {
 			eliminateFromAll(solvedCell, solution);
 			
 			//set solution.  If done in the other order it breaks.
-			solvedCell.setSolvedValue(solution);
+			solvedCell.setSolvedValue(solution, isTemp);
 			
 		}
 		

@@ -27,7 +27,7 @@ public class GridTests {
 		Grid testGrid = new Grid();
 		
 		//solve this Cell
-		testGrid.getCell(0,0).setSolvedValue(1);
+		testGrid.getCell(0,0).setSolvedValue(1, false);
 		
 		//check that it is solved in one place
 		assertTrue(testGrid.getCell(0,0).isSolved());
@@ -97,5 +97,7 @@ public class GridTests {
 		
 		assertEquals(4, block2[8].getBlock());
 	}
+	
+	
 
 }

@@ -71,12 +71,15 @@ public class Cell{
 	 * Used to set a final solved value for the cell
 	 * @param solvedValue
 	 */
-	public void setSolvedValue(int solvedValue){
-		scrubSolveArray(); //prep array for solved status
+	public void setSolvedValue(int solvedValue, boolean isTemp){
+		if(!isTemp){
+			scrubSolveArray(); //prep array for solved status
+		}
 		solveArray[0]=true; //set cell solved to true
 		solveArray[solvedValue]=true; //set final value to true
 		this.solvedValue=solvedValue;
 	}
+	
 
 
 

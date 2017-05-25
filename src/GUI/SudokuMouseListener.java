@@ -40,7 +40,7 @@ public class SudokuMouseListener extends MouseAdapter {
             		int value = getValue(cell);
             		//if value is valid...
                 	if (value > 0) {
-                    	puzzle.setSolvedCell(cell, value);
+                    	puzzle.setSolvedCell(cell, value, false);
                     	puzzlePanel.repaint();
                 	}
             	}
