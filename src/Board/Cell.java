@@ -147,6 +147,7 @@ public class Cell{
 
 	public void resetCell(){
 		solveArray = new boolean[] {false, true, true, true, true, true, true, true, true, true};
+		solvedValue=0;
 	}
 
 

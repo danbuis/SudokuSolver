@@ -63,6 +63,12 @@ public class Solver {
 	public void solveRecursion(int x, int y){
 		int numberToTry = 1;
 		Cell cell=grid.getCell(x, y);
+		if (x==3 && y==1 && numberToTry==7){
+			@SuppressWarnings("unused")
+			int temp = 3;
+			System.out.println("stuff");
+		}
+		
 		
 		while(numberToTry<10){
 			//if this number can go into this cell

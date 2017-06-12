@@ -144,7 +144,7 @@ Cell[] returnArray = new Cell[9];
 	}
 	
 	/**
-	 * Need to unsovle a cell in case we need to resort to recursive solving with backtracking
+	 * Need to unsolve a cell in case we need to resort to recursive solving with backtracking
 	 * @param cellToUnsolve
 	 */
 	
