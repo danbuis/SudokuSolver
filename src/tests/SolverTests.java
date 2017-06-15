@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import Board.Cell;
 import Board.Grid;
+import Board.SolveMethod;
 import Board.Solver;
 
 public class SolverTests {
@@ -45,7 +46,7 @@ public class SolverTests {
 		
 		Cell solvedCell = testSolver.grid.getCell(0,0);
 		
-		testSolver.setSolvedCell(solvedCell, 9, false);
+		testSolver.setSolvedCell(solvedCell, 9, SolveMethod.INITIAL);
 		
 		assertTrue(solvedCell.isSolved());
 		assertTrue(solvedCell.checkValue(9));
@@ -81,10 +82,10 @@ public class SolverTests {
 		Cell col3 = testSolver.grid.getCell(2,7);
 		Cell checkCell = testSolver.grid.getCell(0,0);
 		
-		testSolver.setSolvedCell(row2, 1, false);
-		testSolver.setSolvedCell(row3, 1, false);
-		testSolver.setSolvedCell(col2, 1, false);
-		testSolver.setSolvedCell(col3, 1, false);
+		testSolver.setSolvedCell(row2, 1, SolveMethod.INITIAL);
+		testSolver.setSolvedCell(row3, 1, SolveMethod.INITIAL);
+		testSolver.setSolvedCell(col2, 1, SolveMethod.INITIAL);
+		testSolver.setSolvedCell(col3, 1, SolveMethod.INITIAL);
 
 		
 		//get block 0;
@@ -117,7 +118,7 @@ public class SolverTests {
 		Solver testSolver = new Solver();
 		Cell testCell = testSolver.grid.getCell(0,0);
 		
-		testSolver.setSolvedCell(testCell, 1, false);
+		testSolver.setSolvedCell(testCell, 1, SolveMethod.INITIAL);
 		
 		Cell[] array = testSolver.grid.getBlock(0);
 		
@@ -141,7 +142,7 @@ public class SolverTests {
 		for (int i=0; i<=7; i++){
 			
 			//solve with value of i+1 (due to index 0)
-			testSolver.setSolvedCell(block[i], i+1, false);
+			testSolver.setSolvedCell(block[i], i+1, SolveMethod.INITIAL);
 		}
 		
 		//grab cell we are checking
@@ -182,7 +183,7 @@ public class SolverTests {
 		for (int i=0; i<=6; i++){
 			
 			//solve with value of i+1
-			testSolver.setSolvedCell(block[i], i+1, false);
+			testSolver.setSolvedCell(block[i], i+1, SolveMethod.INITIAL);
 		}
 		
 		//grab the 2 cells in question
@@ -230,14 +231,14 @@ public class SolverTests {
 		Cell[] block = testSolver.grid.getBlock(0);
 		
 		//arrange it such that the 2 cells are the only ones with a 1 and a 2 left.
-		testSolver.setSolvedCell(testSolver.grid.getCell(5,0),1, false); // something way over in the top row
-		testSolver.setSolvedCell(testSolver.grid.getCell(6,0),2, false); //another one
+		testSolver.setSolvedCell(testSolver.grid.getCell(5,0),1, SolveMethod.INITIAL); // something way over in the top row
+		testSolver.setSolvedCell(testSolver.grid.getCell(6,0),2, SolveMethod.INITIAL); //another one
 		
-		testSolver.setSolvedCell(testSolver.grid.getCell(0,8),1, false); //one way down in the first column
-		testSolver.setSolvedCell(testSolver.grid.getCell(0,7),2, false); //and its neighbor
+		testSolver.setSolvedCell(testSolver.grid.getCell(0,8),1, SolveMethod.INITIAL); //one way down in the first column
+		testSolver.setSolvedCell(testSolver.grid.getCell(0,7),2, SolveMethod.INITIAL); //and its neighbor
 		
-		testSolver.setSolvedCell(testSolver.grid.getCell(1,4),1, false); //one in the middle of 2nd column
-		testSolver.setSolvedCell(testSolver.grid.getCell(1,3),2, false); //and its neighbor
+		testSolver.setSolvedCell(testSolver.grid.getCell(1,4),1, SolveMethod.INITIAL); //one in the middle of 2nd column
+		testSolver.setSolvedCell(testSolver.grid.getCell(1,3),2, SolveMethod.INITIAL); //and its neighbor
 		
 		//grab the 2 cells in question
 		Cell cell7 = testSolver.grid.getCell(2,1);
@@ -284,47 +285,47 @@ public class SolverTests {
 	public void mysteryTest1(){
 		
 		Solver solver = new Solver();
-		solver.setSolvedCell(solver.grid.getCell(0,0), 2, false);
-		solver.setSolvedCell(solver.grid.getCell(3,0), 8, false);
-		solver.setSolvedCell(solver.grid.getCell(5,0), 4, false);
-		solver.setSolvedCell(solver.grid.getCell(8,0), 6, false);
+		solver.setSolvedCell(solver.grid.getCell(0,0), 2, SolveMethod.INITIAL);
+		solver.setSolvedCell(solver.grid.getCell(3,0), 8, SolveMethod.INITIAL);
+		solver.setSolvedCell(solver.grid.getCell(5,0), 4, SolveMethod.INITIAL);
+		solver.setSolvedCell(solver.grid.getCell(8,0), 6, SolveMethod.INITIAL);
 		
-		solver.setSolvedCell(solver.grid.getCell(2,1), 6, false);
-		solver.setSolvedCell(solver.grid.getCell(6,1), 5, false);
+		solver.setSolvedCell(solver.grid.getCell(2,1), 6, SolveMethod.INITIAL);
+		solver.setSolvedCell(solver.grid.getCell(6,1), 5, SolveMethod.INITIAL);
 		
-		solver.setSolvedCell(solver.grid.getCell(1,2), 7, false);
-		solver.setSolvedCell(solver.grid.getCell(2,2), 4, false);
-		solver.setSolvedCell(solver.grid.getCell(6,2), 9, false);
-		solver.setSolvedCell(solver.grid.getCell(7,2), 2, false);
+		solver.setSolvedCell(solver.grid.getCell(1,2), 7, SolveMethod.INITIAL);
+		solver.setSolvedCell(solver.grid.getCell(2,2), 4, SolveMethod.INITIAL);
+		solver.setSolvedCell(solver.grid.getCell(6,2), 9, SolveMethod.INITIAL);
+		solver.setSolvedCell(solver.grid.getCell(7,2), 2, SolveMethod.INITIAL);
 		
-		solver.setSolvedCell(solver.grid.getCell(0,3), 3, false);
-		solver.setSolvedCell(solver.grid.getCell(4,3), 4, false);
-		solver.setSolvedCell(solver.grid.getCell(8,3), 7, false);
+		solver.setSolvedCell(solver.grid.getCell(0,3), 3, SolveMethod.INITIAL);
+		solver.setSolvedCell(solver.grid.getCell(4,3), 4, SolveMethod.INITIAL);
+		solver.setSolvedCell(solver.grid.getCell(8,3), 7, SolveMethod.INITIAL);
 		
-		solver.setSolvedCell(solver.grid.getCell(3,4), 3, false);
-		solver.setSolvedCell(solver.grid.getCell(5,4), 5, false);
+		solver.setSolvedCell(solver.grid.getCell(3,4), 3, SolveMethod.INITIAL);
+		solver.setSolvedCell(solver.grid.getCell(5,4), 5, SolveMethod.INITIAL);
 		
-		solver.setSolvedCell(solver.grid.getCell(0,5), 4, false);
-		solver.setSolvedCell(solver.grid.getCell(4,5), 6, false);
-		solver.setSolvedCell(solver.grid.getCell(8,5), 9, false);
+		solver.setSolvedCell(solver.grid.getCell(0,5), 4, SolveMethod.INITIAL);
+		solver.setSolvedCell(solver.grid.getCell(4,5), 6, SolveMethod.INITIAL);
+		solver.setSolvedCell(solver.grid.getCell(8,5), 9, SolveMethod.INITIAL);
 		
-		solver.setSolvedCell(solver.grid.getCell(1,6), 1, false);
-		solver.setSolvedCell(solver.grid.getCell(2,6), 9, false);
-		solver.setSolvedCell(solver.grid.getCell(6,6), 7, false);
-		solver.setSolvedCell(solver.grid.getCell(7,6), 4, false);
+		solver.setSolvedCell(solver.grid.getCell(1,6), 1, SolveMethod.INITIAL);
+		solver.setSolvedCell(solver.grid.getCell(2,6), 9, SolveMethod.INITIAL);
+		solver.setSolvedCell(solver.grid.getCell(6,6), 7, SolveMethod.INITIAL);
+		solver.setSolvedCell(solver.grid.getCell(7,6), 4, SolveMethod.INITIAL);
 		
-		solver.setSolvedCell(solver.grid.getCell(2,7), 8, false);
-		solver.setSolvedCell(solver.grid.getCell(6,7), 2, false);
+		solver.setSolvedCell(solver.grid.getCell(2,7), 8, SolveMethod.INITIAL);
+		solver.setSolvedCell(solver.grid.getCell(6,7), 2, SolveMethod.INITIAL);
 		
-		solver.setSolvedCell(solver.grid.getCell(0,8), 5, false);
-		solver.setSolvedCell(solver.grid.getCell(3,8), 6, false);
-		solver.setSolvedCell(solver.grid.getCell(5,8), 8, false);
-		solver.setSolvedCell(solver.grid.getCell(8,8), 1, false);
+		solver.setSolvedCell(solver.grid.getCell(0,8), 5, SolveMethod.INITIAL);
+		solver.setSolvedCell(solver.grid.getCell(3,8), 6, SolveMethod.INITIAL);
+		solver.setSolvedCell(solver.grid.getCell(5,8), 8, SolveMethod.INITIAL);
+		solver.setSolvedCell(solver.grid.getCell(8,8), 1, SolveMethod.INITIAL);
 		
 		/* Now solve a few cells.  In initial trials cell 1,7 had a 4 remaining, even
 		 * though a 4 had been placed in 3,7 earlier.*/
-		solver.setSolvedCell(solver.grid.getCell(0,6), 6, false);
-		solver.setSolvedCell(solver.grid.getCell(0,7), 6, false);
+		solver.setSolvedCell(solver.grid.getCell(0,6), 6, SolveMethod.INITIAL);
+		solver.setSolvedCell(solver.grid.getCell(0,7), 6, SolveMethod.INITIAL);
 		
 		//grab the cell in question
 		Cell problemCell = solver.grid.getCell(1,7);
@@ -336,7 +337,7 @@ public class SolverTests {
 		assertTrue(problemCell.checkValue(4));
 		
 		//Here is the solve that should have eliminated a 4
-		solver.setSolvedCell(solver.grid.getCell(3,7), 4, false);
+		solver.setSolvedCell(solver.grid.getCell(3,7), 4, SolveMethod.INITIAL);
 		
 		//Verify that the cell can no longer take a 4;
 		assertFalse(problemCell.checkValue(4));

@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import Board.Cell;
 import Board.Grid;
+import Board.SolveMethod;
 
 public class GridTests {
 
@@ -27,7 +28,7 @@ public class GridTests {
 		Grid testGrid = new Grid();
 		
 		//solve this Cell
-		testGrid.getCell(0,0).setSolvedValue(1, false);
+		testGrid.getCell(0,0).setSolvedValue(1, SolveMethod.INITIAL);
 		
 		//check that it is solved in one place
 		assertTrue(testGrid.getCell(0,0).isSolved());

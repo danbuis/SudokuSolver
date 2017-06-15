@@ -73,7 +73,7 @@ public class Solver {
 		while(numberToTry<10){
 			//if this number can go into this cell
 			if(cell.checkValue(numberToTry)){
-				this.setSolvedCell(cell, numberToTry, true);
+				this.setSolvedCell(cell, numberToTry, SolveMethod.RECURSION);
 				
 				if(x==8 && y==8){
 					break;
@@ -217,7 +217,7 @@ public class Solver {
 			//how many cells can take that value?  
 			if(count==1){
 				foundACellToSolve=true;
-				setSolvedCell(grid.getCell(CellX,CellY),i, false);
+				setSolvedCell(grid.getCell(CellX,CellY),i, SolveMethod.DEDUCTION);
 					
 				System.out.println("Found a hidden single -");
 				System.out.println(grid.getCell(CellX,  CellY).toString());
@@ -339,7 +339,7 @@ public class Solver {
 				//if only one valid option remains in Cell... 
 				if (count==1 && value!=0){ //value check is a fail safe sort of check.  I can't fathom a scenario where it might be relevant
 				//then it is solved
-					setSolvedCell(cell, value, false);
+					setSolvedCell(cell, value, SolveMethod.DEDUCTION);
 					foundACellToSolve = true;
 					System.out.println("Found a naked single -");
 					System.out.println(cell.toString());
@@ -358,7 +358,7 @@ public class Solver {
 	 * @param solvedCell
 	 * @param solution
 	 */
-	public void setSolvedCell(Cell solvedCell, int solution, boolean isTemp){
+	public void setSolvedCell(Cell solvedCell, int solution, SolveMethod solveMethod){
 		
 		if (!solvedCell.isSolved()){
 			
@@ -366,7 +366,7 @@ public class Solver {
 			eliminateFromAll(solvedCell, solution);
 			
 			//set solution.  If done in the other order it breaks.
-			solvedCell.setSolvedValue(solution, isTemp);
+			solvedCell.setSolvedValue(solution, solveMethod);
 			
 		}
 		

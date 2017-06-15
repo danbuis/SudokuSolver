@@ -22,6 +22,8 @@ public class Cell{
 	 */
 	private boolean[] solveArray;
 	
+	public SolveMethod solveMethod;
+	
 	//Representation of coordinates of cell
 	private Point coords;
 	private Rectangle bounds;
@@ -29,6 +31,7 @@ public class Cell{
 	//what square group of 9 is this cell in.  
 	private int block;
 	public int solvedValue = 0;
+	
 	
 	/**
 	 * generic constructor
@@ -39,6 +42,7 @@ public class Cell{
 		solveArray = new boolean[] {false, true, true, true, true, true, true, true, true, true};
 		setCoords(new Point(x,y));
 		setBlock(calculateBlock(x,y));
+		solveMethod = SolveMethod.NONE;
 		
 	}
 	
@@ -71,8 +75,8 @@ public class Cell{
 	 * Used to set a final solved value for the cell
 	 * @param solvedValue
 	 */
-	public void setSolvedValue(int solvedValue, boolean isTemp){
-		if(!isTemp){
+	public void setSolvedValue(int solvedValue, SolveMethod solveMethod){
+		if(solveMethod != SolveMethod.RECURSION){
 			scrubSolveArray(); //prep array for solved status
 		}
 		solveArray[0]=true; //set cell solved to true

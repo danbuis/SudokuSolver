@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import Board.Cell;
+import Board.SolveMethod;
 
 public class CellTests {
 
@@ -48,7 +49,7 @@ public class CellTests {
 	public void testSetSolvedValue() {
 		assertFalse(testCell1.isSolved());
 		
-		testCell1.setSolvedValue(2, false);
+		testCell1.setSolvedValue(2, SolveMethod.INITIAL);
 		
 		assertTrue(testCell1.isSolved());
 		assertFalse(testCell1.checkValue(1));
@@ -68,7 +69,7 @@ public class CellTests {
 	public void testIsSolved() {
 		assertFalse(testCell6.isSolved());
 		
-		testCell6.setSolvedValue(9, false);
+		testCell6.setSolvedValue(9, SolveMethod.INITIAL);
 		
 		assertTrue(testCell6.isSolved());
 	}
@@ -78,7 +79,7 @@ public class CellTests {
 		assertTrue(testCell1.checkValue(1));
 		assertTrue(testCell1.checkValue(7));
 		
-		testCell6.setSolvedValue(9, false);
+		testCell6.setSolvedValue(9, SolveMethod.INITIAL);
 		
 		assertTrue(testCell6.checkValue(9));
 		assertFalse(testCell6.checkValue(7));
@@ -135,7 +136,7 @@ public class CellTests {
 		test1.eliminateValue(1);
 		assertEquals(8, test1.howManyCandidatesRemain());
 		
-		test1.setSolvedValue(2, false);
+		test1.setSolvedValue(2, SolveMethod.INITIAL);
 		assertEquals(1, test1.howManyCandidatesRemain());
 	}
 
