@@ -82,6 +82,7 @@ public class Cell{
 		solveArray[0]=true; //set cell solved to true
 		solveArray[solvedValue]=true; //set final value to true
 		this.solvedValue=solvedValue;
+		this.solveMethod = solveMethod;
 	}
 	
 
@@ -152,6 +153,7 @@ public class Cell{
 	public void resetCell(){
 		solveArray = new boolean[] {false, true, true, true, true, true, true, true, true, true};
 		solvedValue=0;
+		solveMethod = SolveMethod.NONE;
 	}
 
 
@@ -260,6 +262,7 @@ public class Cell{
         
         //if solved, use a larger font
         if (this.isSolved()){
+        	
         	Font solvedFont = font.deriveFont((float)(60));
         	g.setFont(solvedFont);
         	
@@ -268,7 +271,17 @@ public class Cell{
         	String solvedString = ""+solvedValue;
         	int textwidth = (int)(font.getStringBounds(solvedString, frc).getWidth());
         	int textheight = (int)(font.getStringBounds(solvedString, frc).getHeight());
-        	
+  
+        	if(solveMethod == SolveMethod.INITIAL){
+        		g.setColor(Color.BLUE);
+     
+        	}else if (solveMethod == SolveMethod.DEDUCTION){
+        		g.setColor(Color.BLACK);
+
+        	}else if (solveMethod == SolveMethod.RECURSION){
+        		g.setColor(Color.GREEN);
+
+        	}
         	g.drawString(solvedString, (int)(x+width*0.4-textwidth/2.0), (int)(y+width*0.7+textheight/2.0));
         	g.setFont(font);
         	

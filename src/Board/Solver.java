@@ -52,7 +52,7 @@ public class Solver {
 		if(!isPuzzleSolved()){
 			System.out.println("attempting recursion");
 		
-			solveRecursion(0, 0);
+			//solveRecursion(0, 0);
 		
 			grid.printGrid();
 		}
@@ -96,8 +96,8 @@ public class Solver {
 		}//end while
 		
 		//if numberToTry is 10, we have run out of options, clean up and return to caller
-		if(numberToTry==10){
-			grid.unsolveCell(cell);
+		if(numberToTry==10 && cell.isSolved()){
+			this.unsolveCell(cell);
 			return;
 		}
 		
@@ -368,6 +368,109 @@ public class Solver {
 			//set solution.  If done in the other order it breaks.
 			solvedCell.setSolvedValue(solution, solveMethod);
 			
+		}
+		
+	}
+	
+	/**
+	 * Need to unsolve a cell in case we need to resort to recursive solving with backtracking
+	 * @param cellToUnsolve
+	 */
+	
+	public void unsolveCell(Cell cellToUnsolve){
+		//first grab the current solved value
+		int oldSolvedValue = cellToUnsolve.solvedValue;
+		System.out.println("top of unsolve cell");
+		
+		//next do a reset of the cell
+		cellToUnsolve.resetCell();
+		
+		//next look at all cells in same row, column and block
+		Cell[] sameRow = this.grid.getRow(cellToUnsolve.getCoords().y);
+		Cell[] sameCol = this.grid.getColumn(cellToUnsolve.getCoords().x);
+		Cell[] sameBlock = this.grid.getBlock(cellToUnsolve.getBlock());
+		
+		// for the ith element in each array
+		for (int i=0; i<9;i++){
+			//if its solved
+			if(sameRow[i].isSolved()){
+				//remove it as option for future solving in calling cell
+				cellToUnsolve.eliminateValue(sameRow[i].solvedValue);
+				
+				//if checked cell is solved via recursion we might need to do an add back as we clean up calling cell
+				if(sameRow[i].solveMethod==SolveMethod.RECURSION){
+					addBackPossibleValue(sameRow[i], oldSolvedValue);
+				}
+			}else{
+				//else add it back to the other already unsolved cell
+				sameRow[i].uneliminateValue(oldSolvedValue);
+			} //end row block
+			
+			
+			if(sameCol[i].isSolved()){
+				cellToUnsolve.eliminateValue(sameCol[i].solvedValue);
+				
+				if(sameCol[i].solveMethod==SolveMethod.RECURSION){
+					addBackPossibleValue(sameCol[i], oldSolvedValue);
+				}
+			}else{
+				sameCol[i].uneliminateValue(oldSolvedValue);
+			} //end col block
+			
+			
+			if(sameBlock[i].isSolved()){
+				cellToUnsolve.eliminateValue(sameBlock[i].solvedValue);
+				
+				if(sameBlock[i].solveMethod==SolveMethod.RECURSION){
+					addBackPossibleValue(sameBlock[i], oldSolvedValue);
+				}
+			}else{
+				sameBlock[i].uneliminateValue(oldSolvedValue);
+			} //end block block
+		}
+		
+	}
+	
+	private void addBackPossibleValue(Cell cell, int valueToAddBack){
+		System.out.println("top of add back");
+		System.out.println(cell);
+		
+		//grab all related Cells
+		Cell[] sameRow = this.grid.getRow(cell.getCoords().y);
+		Cell[] sameCol = this.grid.getColumn(cell.getCoords().x);
+		Cell[] sameBlock = this.grid.getBlock(cell.getBlock());
+		
+		//initialize boolean.  will be true if we find another cell solved to the same value
+		boolean foundOtherDuplicateValue = false;
+		
+		//iterate through all 3 groups of cells
+		for (int i=0; i<9; i++){
+			System.out.println("loop " +i);
+			//if it is solved, and has the same value...
+			if (sameRow[i].isSolved() && sameRow[i].solvedValue==valueToAddBack){
+				//change boolean
+				foundOtherDuplicateValue = true;
+				//no need to keep looking
+				System.out.println("found dup row: "+sameRow[i]);
+				break;
+			}
+			if (sameCol[i].isSolved() && sameCol[i].solvedValue==valueToAddBack){
+				foundOtherDuplicateValue = true;
+				System.out.println("found dup col: "+sameCol[i]);
+				break;
+			}
+			if (sameBlock[i].isSolved() && sameBlock[i].solvedValue==valueToAddBack){
+				foundOtherDuplicateValue = true;
+				System.out.println("found dup block: "+sameBlock[i]);
+				break;
+			}
+		}
+		
+		System.out.println("end loop");
+		//if no other cells found that would disallow this value, proceed
+		if(!foundOtherDuplicateValue){
+			cell.uneliminateValue(valueToAddBack);
+			System.out.println("uneliminate");
 		}
 		
 	}

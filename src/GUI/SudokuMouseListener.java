@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import Board.Cell;
+import Board.SolveMethod;
 import Board.Solver;
 /**
  * Class that watches for mouse clicks and then acts accordingly
@@ -40,13 +41,13 @@ public class SudokuMouseListener extends MouseAdapter {
             		int value = getValue(cell);
             		//if value is valid...
                 	if (value > 0) {
-                    	puzzle.setSolvedCell(cell, value, false);
+                    	puzzle.setSolvedCell(cell, value, SolveMethod.INITIAL);
                     	puzzlePanel.repaint();
                 	}
             	}
             }else if (puzzle.isClearValues()){
             	if(cell!=null) {
-            		puzzle.grid.unsolveCell(cell);
+            		puzzle.unsolveCell(cell);
             		puzzlePanel.repaint();
             	}
             }

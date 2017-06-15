@@ -143,46 +143,7 @@ Cell[] returnArray = new Cell[9];
 		}//end x loop
 	}
 	
-	/**
-	 * Need to unsolve a cell in case we need to resort to recursive solving with backtracking
-	 * @param cellToUnsolve
-	 */
-	
-	public void unsolveCell(Cell cellToUnsolve){
-		//first grab the current solved value
-		int oldSolvedValue = cellToUnsolve.solvedValue;
-		
-		//next do a reset of the cell
-		cellToUnsolve.resetCell();
-		
-		//next look at all cells in same row, column and block
-		Cell[] sameRow = this.getRow(cellToUnsolve.getCoords().y);
-		Cell[] sameCol = this.getColumn(cellToUnsolve.getCoords().x);
-		Cell[] sameBlock = this.getBlock(cellToUnsolve.getBlock());
-		
-		// for the ith element in each array
-		for (int i=0; i<9;i++){
-			//if its solved
-			if(sameRow[i].isSolved()){
-				//remove it as option for future solving
-				cellToUnsolve.eliminateValue(sameRow[i].solvedValue);
-			}else{
-				//else add it back to the other already unsolved cell
-				sameRow[i].uneliminateValue(oldSolvedValue);
-			}
-			if(sameCol[i].isSolved()){
-				cellToUnsolve.eliminateValue(sameCol[i].solvedValue);
-			}else{
-				sameCol[i].uneliminateValue(oldSolvedValue);
-			}
-			if(sameBlock[i].isSolved()){
-				cellToUnsolve.eliminateValue(sameBlock[i].solvedValue);
-			}else{
-				sameBlock[i].uneliminateValue(oldSolvedValue);
-			}
-		}
-		
-	}
+
 	
 	
 
