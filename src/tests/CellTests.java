@@ -9,6 +9,7 @@ import Board.SolveMethod;
 
 public class CellTests {
 
+	//a few test cells
 	public Cell testCell1 = new Cell(0,0);
 	public Cell testCell2 = new Cell(2,2);
 	public Cell testCell3 = new Cell(2,3);
@@ -18,7 +19,7 @@ public class CellTests {
 	
 	
 /**
- * Makes sure that cells are determning their block correctly.  Tests extents and around a Block intersection
+ * Makes sure that cells are determining their block correctly.  Tests extents and around a Block intersection
  */
 	@Test
 	public void testGetBlock() {
@@ -65,6 +66,9 @@ public class CellTests {
 		assertFalse(testCell1.checkValue(9));
 	}
 
+	/** verifies that cell solves in the first place
+	 * 
+	 */
 	@Test
 	public void testIsSolved() {
 		assertFalse(testCell6.isSolved());
@@ -74,6 +78,9 @@ public class CellTests {
 		assertTrue(testCell6.isSolved());
 	}
 
+	/** checks that retrieving value from solved cell works right
+	 * 
+	 */
 	@Test
 	public void testCheckValue() {
 		assertTrue(testCell1.checkValue(1));
@@ -86,8 +93,9 @@ public class CellTests {
 		assertFalse(testCell6.checkValue(1));
 	}
 
-	
-
+	/** Tests that all behavior associated with eliminating values from cells works
+	 * 
+	 */
 	@Test
 	public void testEliminateValue() {
 		
@@ -112,6 +120,10 @@ public class CellTests {
 		
 	}
 	
+	
+	/** A few tests for determining info about what candidates still remain in cells
+	 * 
+	 */
 	@Test
 	public void testSameCandidatesRemain(){
 		Cell test1 = new Cell(0,0);

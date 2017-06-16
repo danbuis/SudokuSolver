@@ -9,6 +9,9 @@ import Board.Solver;
 
 public class SolveEntirePuzzle {
 	
+	/** An easy solve that can be done with just naked singles and hidden singles
+	 * 
+	 */
 	@Test
 	public void testEasySolve1(){
 		Solver solver = new Solver();
@@ -56,7 +59,10 @@ public class SolveEntirePuzzle {
 		
 	}
 	
-	//@Test
+	/** tests straight recursion on a blank grid
+	 * 
+	 */
+	@Test
 	public void testRawRecursion(){
 		Solver testSolver = new Solver();
 		

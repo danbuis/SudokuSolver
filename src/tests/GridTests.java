@@ -46,7 +46,7 @@ public class GridTests {
 	}
 	
 	/**
-	 * tests behaviour of getRow() method
+	 * tests behavior of getRow() method
 	 */
 	@Test
 	public void testGetRow(){
@@ -64,7 +64,7 @@ public class GridTests {
 	}
 	
 	/**
-	 * tests behaviour of getColumn() method
+	 * tests behavior of getColumn() method
 	 */
 	@Test
 	public void testGetColumn(){
@@ -83,7 +83,7 @@ public class GridTests {
 	
 	
 	/**
-	 * tests behaviour of getGroup() method
+	 * tests behavior of getGroup() method
 	 */
 	@Test
 	public void testGetGroup(){
