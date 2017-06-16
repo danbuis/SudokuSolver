@@ -21,20 +21,7 @@ public class SolverTests {
 		assertNotNull(testSolver.grid);
 	}
 	
-	@Test
-	public void testRecursion(){
-		Solver testSolver = new Solver();
-		
-		testSolver.solveRecursion(0, 0);
-		assertTrue(testSolver.grid.getCell(0, 0).isSolved());
-		
-		assertTrue(testSolver.grid.getCell(1, 0).isSolved());
-		assertTrue(testSolver.grid.getCell(0, 1).isSolved());
-		assertTrue(testSolver.grid.getCell(4, 4).isSolved());
-		assertTrue(testSolver.grid.getCell(7, 8).isSolved());
-		assertTrue(testSolver.grid.getCell(8, 7).isSolved());
-		assertTrue(testSolver.grid.getCell(8, 8).isSolved());
-	}
+
 
 	/** tests symptoms of setting a Cell with a solution.  If successful, that cell will register as solved,
 	 * and the solution will be removed from other cells.

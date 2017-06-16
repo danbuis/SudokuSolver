@@ -53,7 +53,7 @@ public class Solver {
 		if(!isPuzzleSolved()){
 			System.out.println("attempting recursion");
 		
-			//solveRecursion(0, 0);
+			solveRecursion(0, 0);
 		
 			grid.printGrid();
 		}
@@ -64,42 +64,37 @@ public class Solver {
 	public void solveRecursion(int x, int y){
 		int numberToTry = 1;
 		Cell cell=grid.getCell(x, y);
-		if (x==3 && y==1 && numberToTry==7){
-			@SuppressWarnings("unused")
-			int temp = 3;
-			System.out.println("stuff");
+
+		//if this is already solved, move on
+		if(cell.isSolved()){
+			next(x,y);
+			
+			//else we should try to slot in something
+		}else{
+			while(numberToTry<10){
+				//if this number can go into this cell
+				if(cell.checkValue(numberToTry)){
+					
+					//first unsolve it since it could have been recursively solved earlier
+					this.unsolveCell(cell);
+					//then set it to a new solved solution
+					this.setSolvedCell(cell, numberToTry, SolveMethod.RECURSION);
+					
+					if(x==8 && y==8){
+						//reached the end and successfully slotted in a value... don't try to recurse again
+						break;
+					}
+					
+					//on to the next cell
+					next(x,y);
+					
+				}//end if loop
+				
+				
+				
+				numberToTry++;
+			}//end while
 		}
-		
-		
-		while(numberToTry<10){
-			//if this number can go into this cell
-			if(cell.checkValue(numberToTry)){
-				
-				//first unsolve it since it could have been recursively solved earlier
-				this.unsolveCell(cell);
-				//then set it to a new solved solution
-				this.setSolvedCell(cell, numberToTry, SolveMethod.RECURSION);
-				
-				if(x==8 && y==8){
-					//reached the end and successfully slotted in a value... don't try to recurse again
-					break;
-				}
-				
-				//on to the next cell
-				if(x!=8){
-					solveRecursion(x+1, y);
-				}else solveRecursion(0,y+1);
-				
-				/*if(!isPuzzleSolved()){
-					grid.unsolveCell(cell);
-				}*/
-				
-			}//end if loop
-			
-			
-			
-			numberToTry++;
-		}//end while
 		
 		
 		//if the puzzle is solved, return without unsolving.  First checks the boolean value, if it is false, it evaluates the function.  
@@ -118,7 +113,9 @@ public class Solver {
 	}
 	
 	public void next(int x, int y){
-		
+		if(x!=8){
+			solveRecursion(x+1, y);
+		}else solveRecursion(0,y+1);
 	}
 	
 	/**
