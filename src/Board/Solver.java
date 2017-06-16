@@ -561,11 +561,9 @@ public class Solver {
 
 	public void reset() {
 		System.out.println("reseting");
-		for (int x=0;x<9;x++){
-			for (int y=0; y<9;y++){
-				grid.getCell(x, y).resetCell();
-			}
-		}
+		
+		grid = new Grid();
+		puzzleSolved = false;
 		
 	}
 
