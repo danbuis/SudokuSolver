@@ -73,6 +73,10 @@ public class Solver {
 		while(numberToTry<10){
 			//if this number can go into this cell
 			if(cell.checkValue(numberToTry)){
+				
+				//first unsolve it since it could have been recursively solved earlier
+				this.unsolveCell(cell);
+				//then set it to a new solved solution
 				this.setSolvedCell(cell, numberToTry, SolveMethod.RECURSION);
 				
 				if(x==8 && y==8){
@@ -378,62 +382,66 @@ public class Solver {
 	 */
 	
 	public void unsolveCell(Cell cellToUnsolve){
-		//first grab the current solved value
-		int oldSolvedValue = cellToUnsolve.solvedValue;
-		System.out.println("top of unsolve cell");
-		
-		//next do a reset of the cell
-		cellToUnsolve.resetCell();
-		
-		//next look at all cells in same row, column and block
-		Cell[] sameRow = this.grid.getRow(cellToUnsolve.getCoords().y);
-		Cell[] sameCol = this.grid.getColumn(cellToUnsolve.getCoords().x);
-		Cell[] sameBlock = this.grid.getBlock(cellToUnsolve.getBlock());
-		
-		// for the ith element in each array
-		for (int i=0; i<9;i++){
-			//if its solved
-			if(sameRow[i].isSolved()){
-				//remove it as option for future solving in calling cell
-				cellToUnsolve.eliminateValue(sameRow[i].solvedValue);
+		//filter out weird inputs
+		if(cellToUnsolve.isSolved()&&cellToUnsolve.solvedValue>0){
+			//first grab the current solved value
+			int oldSolvedValue = cellToUnsolve.solvedValue;
+			System.out.println("top of unsolve cell");
+			System.out.println("unsolving : "+cellToUnsolve);
+			
+			//next do a reset of the cell
+			cellToUnsolve.resetCell();
+			
+			//next look at all cells in same row, column and block
+			Cell[] sameRow = this.grid.getRow(cellToUnsolve.getCoords().y);
+			Cell[] sameCol = this.grid.getColumn(cellToUnsolve.getCoords().x);
+			Cell[] sameBlock = this.grid.getBlock(cellToUnsolve.getBlock());
+			
+			// for the ith element in each array
+			for (int i=0; i<9;i++){
+				//if its solved
+				if(sameRow[i].isSolved()){
+					//remove it as option for future solving in calling cell
+					cellToUnsolve.eliminateValue(sameRow[i].solvedValue);
+					
+					//if checked cell is solved via recursion we might need to do an add back as we clean up calling cell
+					if(sameRow[i].solveMethod==SolveMethod.RECURSION){
+						addBackPossibleValue(sameRow[i], oldSolvedValue);
+					}
+				}else{
+					//else add it back to the other already unsolved cell
+					sameRow[i].uneliminateValue(oldSolvedValue);
+				} //end row block
 				
-				//if checked cell is solved via recursion we might need to do an add back as we clean up calling cell
-				if(sameRow[i].solveMethod==SolveMethod.RECURSION){
-					addBackPossibleValue(sameRow[i], oldSolvedValue);
-				}
-			}else{
-				//else add it back to the other already unsolved cell
-				sameRow[i].uneliminateValue(oldSolvedValue);
-			} //end row block
-			
-			
-			if(sameCol[i].isSolved()){
-				cellToUnsolve.eliminateValue(sameCol[i].solvedValue);
 				
-				if(sameCol[i].solveMethod==SolveMethod.RECURSION){
-					addBackPossibleValue(sameCol[i], oldSolvedValue);
-				}
-			}else{
-				sameCol[i].uneliminateValue(oldSolvedValue);
-			} //end col block
-			
-			
-			if(sameBlock[i].isSolved()){
-				cellToUnsolve.eliminateValue(sameBlock[i].solvedValue);
+				if(sameCol[i].isSolved()){
+					cellToUnsolve.eliminateValue(sameCol[i].solvedValue);
+					
+					if(sameCol[i].solveMethod==SolveMethod.RECURSION){
+						addBackPossibleValue(sameCol[i], oldSolvedValue);
+					}
+				}else{
+					sameCol[i].uneliminateValue(oldSolvedValue);
+				} //end col block
 				
-				if(sameBlock[i].solveMethod==SolveMethod.RECURSION){
-					addBackPossibleValue(sameBlock[i], oldSolvedValue);
-				}
-			}else{
-				sameBlock[i].uneliminateValue(oldSolvedValue);
-			} //end block block
+				
+				if(sameBlock[i].isSolved()){
+					cellToUnsolve.eliminateValue(sameBlock[i].solvedValue);
+					
+					if(sameBlock[i].solveMethod==SolveMethod.RECURSION){
+						addBackPossibleValue(sameBlock[i], oldSolvedValue);
+					}
+				}else{
+					sameBlock[i].uneliminateValue(oldSolvedValue);
+				} //end block block
+			}
 		}
 		
 	}
 	
 	private void addBackPossibleValue(Cell cell, int valueToAddBack){
 		System.out.println("top of add back");
-		System.out.println(cell);
+		System.out.println("trying to add back "+valueToAddBack);
 		
 		//grab all related Cells
 		Cell[] sameRow = this.grid.getRow(cell.getCoords().y);

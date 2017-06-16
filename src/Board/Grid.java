@@ -131,16 +131,26 @@ Cell[] returnArray = new Cell[9];
 		return cellGroups[block];
 	}
 	
-	public void printGrid(){
+	public String printGrid(){
+		String row = "";
 		for (int y=0; y<=8; y++){
-			String row = "";
+			
 			for (int x=0; x<=8; x++){
-						
-				row =row+" "+this.cellArray[x][y].solvedValue;
+				if(this.cellArray[x][y].isSolved()){		
+					row =row+" "+this.cellArray[x][y].solvedValue;
+				} else{
+					row = row+" -";
+				}
 
 			}//end y loop
-			System.out.println(row);
+			row=row+"\n";
 		}//end x loop
+		
+		return row;
+	}
+	
+	public String toString(){
+		return printGrid();
 	}
 	
 

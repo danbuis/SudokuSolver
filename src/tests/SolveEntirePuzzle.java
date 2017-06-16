@@ -49,7 +49,7 @@ public class SolveEntirePuzzle {
 		solver.setSolvedCell(solver.grid.getCell(5,8), 8, SolveMethod.INITIAL);
 		solver.setSolvedCell(solver.grid.getCell(8,8), 1, SolveMethod.INITIAL);
 		
-		solver.grid.printGrid();
+		System.out.println(solver.grid.printGrid());
 		System.out.println(" ");
 			
 		assertTrue(solver.solveGrid());
