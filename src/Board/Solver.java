@@ -22,6 +22,7 @@ public class Solver {
 	public int cycles=10;
 	private boolean isSetValuesToggles = false;
 	private boolean clearValues = false;
+	private boolean puzzleSolved = false;
 	
 	public Grid grid = new Grid();
 
@@ -80,6 +81,7 @@ public class Solver {
 				this.setSolvedCell(cell, numberToTry, SolveMethod.RECURSION);
 				
 				if(x==8 && y==8){
+					//reached the end and successfully slotted in a value... don't try to recurse again
 					break;
 				}
 				
@@ -99,6 +101,13 @@ public class Solver {
 			numberToTry++;
 		}//end while
 		
+		
+		//if the puzzle is solved, return without unsolving.  First checks the boolean value, if it is false, it evaluates the function.  
+		//If function comes to true, the boolean value is updated to true for the next time this is called as we exit the recursion calls
+		if(puzzleSolved || isPuzzleSolved()){
+			return;
+		}
+		
 		//if numberToTry is 10, we have run out of options, clean up and return to caller
 		if(numberToTry==10 && cell.isSolved()){
 			this.unsolveCell(cell);
@@ -114,13 +123,13 @@ public class Solver {
 	
 	/**
 	 * Looks at all cells of a puzzle to see if it has been solved.  If any cell is false, it immediately returns
-	 * false and stops checking.
+	 * false and stops checking.  Start in lower right and iterate backwards.  During recursion that will save lots of unneeded checks as we check if we have solved it yet.
 	 * @return
 	 */
 	private boolean isPuzzleSolved() {
 
-		for (int x=0;x<9; x++){
-			for (int y=0; y<9; y++){
+		for (int x=8;x>=0; x--){
+			for (int y=8; y>=0; y--){
 				
 				if (!grid.getCell(x, y).isSolved()){
 					return false;
@@ -129,6 +138,7 @@ public class Solver {
 			}//end y loop
 		}//end x loop
 		
+		puzzleSolved=true;
 		return true;
 	}
 
@@ -410,7 +420,7 @@ public class Solver {
 					}
 				}else{
 					//else add it back to the other already unsolved cell
-					sameRow[i].uneliminateValue(oldSolvedValue);
+					addBackPossibleValue(sameRow[i], oldSolvedValue);
 				} //end row block
 				
 				
@@ -421,7 +431,7 @@ public class Solver {
 						addBackPossibleValue(sameCol[i], oldSolvedValue);
 					}
 				}else{
-					sameCol[i].uneliminateValue(oldSolvedValue);
+					addBackPossibleValue(sameCol[i], oldSolvedValue);
 				} //end col block
 				
 				
@@ -432,7 +442,7 @@ public class Solver {
 						addBackPossibleValue(sameBlock[i], oldSolvedValue);
 					}
 				}else{
-					sameBlock[i].uneliminateValue(oldSolvedValue);
+					addBackPossibleValue(sameBlock[i], oldSolvedValue);;
 				} //end block block
 			}
 		}
